@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "f6d7c551-5fe8-4d5a-9b20-fivecardprompt",
   "revision": 0,
   "last_node_id": 6,
@@ -50,7 +50,7 @@
         "Node name for S&R": "AICG3D_CardSettingsFive"
       },
       "widgets_values": [
-        "reference_profile_18 | 参考角色卡18格",
+        "expr_body_8 | 表情4格+全身4格(2x4)",
         "原创男性角色，20岁，黑色短发，灰蓝色眼睛，清瘦脸型，深灰短袖、黑色长裤和白色运动鞋。",
         "未命名角色",
         "电影级角色设定，干净背景，柔和棚拍光，专业角色资产",

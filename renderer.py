@@ -158,6 +158,10 @@ def _draw_cell(
     image_h = max(1, image_box[3] - image_box[1])
     source = _load_image(slot.get("image", ""), slot.get("subfolder", ""))
 
+    if source is not None and cell.get("mirror"):
+        # 右侧面格：自动水平镜像，保证左右侧面方向相反（不依赖模型自觉）
+        source = ImageOps.mirror(source)
+
     if source is not None:
         fitted = _fit_image(
             source,

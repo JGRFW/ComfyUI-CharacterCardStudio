@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "a3cc4e6a-65a3-4e3f-9f10-oneclickcardqwen21",
   "revision": 0,
   "last_node_id": 14,
@@ -144,7 +144,7 @@
         "Node name for S&R": "AICG3D_CharacterCardOneClick"
       },
       "widgets_values": [
-        "character_profile_12 | 角色设定卡",
+        "expr_body_8 | 表情4格+全身4格(2x4)",
         "原创男性角色，20岁，黑色短发，灰蓝色眼睛，清瘦脸型，深灰短袖、黑色长裤和白色运动鞋。",
         "未命名角色",
         "电影级角色设定卡，干净背景，柔和棚拍光，专业排版",

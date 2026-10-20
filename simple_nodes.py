@@ -29,26 +29,29 @@ def _preferred(options: list[str], needle: str) -> str:
 
 
 CELL_ASSET_MAP = {
-    "reference_profile_18": {
-        "hero": 1, "front": 0, "profile": 2, "back": 3,
-        "headshot_a": 6, "expression_a": 7, "expression_b": 8, "expression_c": 9,
-        "detail_eye": 11, "detail_hand": 12, "detail_costume": 13,
-        "detail_fabric_1": 14, "detail_fabric_2": 15, "detail_fabric_3": 16,
-        "detail_fabric_4": 19, "detail_accessory": 17,
-        "action_a": 4, "action_b": 5,
+    # 用户目标版式：上传一张图 → 多视图（asset 下标见 generate() 的 prompts 顺序）
+    # 0正面全身 1主视觉 2侧面全身 3背面全身 4动作A 5动作B 6头像 7微笑 8生气 9难过
+    # 10惊讶 11眼部 12手部 13服装 14面料A 15面料B 16纽扣 17配饰 18鞋 19背饰
+    "expr_body_8": {
+        "head_neutral": 6, "head_happy": 7, "head_serious": 8, "head_angry": 8,
+        "body_front": 0, "body_profile": 2, "body_back": 3, "body_profile2": 2,
     },
-    "turnaround_3": {"front": 0, "profile": 2, "back": 3},
-    "turnaround_hero": {"hero": 1, "front": 0, "profile": 2, "back": 3},
-    "costume_breakdown": {
-        "hero": 1, "outer": 11, "inner": 12, "bottom": 13, "shoes": 18,
-        "accessory_a": 17, "accessory_b": 19, "fabric": 14, "pattern": 16,
-        "back_detail": 15,
+    "head_body_6": {
+        "head_front": 6, "head_side": 6, "head_back": 6,
+        "body_front": 0, "body_side": 2, "body_back": 3,
     },
-    "character_profile_12": {
-        "hero": 1, "front": 0, "profile": 2, "back": 3, "face": 6,
-        "happy": 7, "angry": 8, "sad": 9, "eye": 11, "hand": 12,
-        "costume": 13, "prop": 17, "shoes": 18, "fabric": 14,
-        "accessory": 15, "pose": 4, "atmosphere": 5,
+    "bighead_body3": {
+        "head_big": 6, "body_front": 0, "body_side": 2, "body_back": 3,
+    },
+    "xianxia_ref": {
+        "body_front": 0, "body_right": 2, "body_back": 3, "body_left": 2,
+        "head_1": 6, "head_2": 6, "head_3": 6,
+        "ex_1": 7, "ex_2": 8, "ex_3": 9, "ex_4": 10,
+        "de_1": 11, "de_2": 17, "de_3": 13,
+    },
+    "school_ref": {
+        "hero": 1, "body_front": 0, "body_side": 2, "body_back": 3,
+        "ex_1": 7, "ex_2": 9, "ex_3": 8, "de_1": 13, "de_2": 16, "de_3": 18,
     },
 }
 
@@ -214,52 +217,53 @@ class CharacterCardGeneratorSingle:
         character = config.get("identity") or config.get("appearance") or "原创角色"
         style = config.get("style") or "电影级角色设定"
         negative = config.get("negativePrompt") or DEFAULT_NEGATIVE
+        # 有参考图时加强身份锁：让每一格都死死跟着上传的那张脸/服装
+        identity_lock = (
+            "参考图是同一人，严格复刻其脸型、五官、瞳色、发型发色、肤色与身材。"
+            if reference_image is not None else ""
+        )
         common = (
-            f"同一角色。角色设定：{character}。统一画风：{style}。"
+            f"同一角色。角色设定：{character}。统一画风：{style}。{identity_lock}"
             "保持脸型、五官、瞳色、发型、发色、肤色、身材比例、服装版型和配饰完全一致。"
         )
+        # 全身用更高的竖幅比例(768×1344)，给脚留够空间，避免 Qwen 把鞋底裁掉
+        BODY = (768, 1344)
+        HEAD = (768, 768)
         prompts = [
-            (common + "正面全身，头顶到鞋底完整，纯浅灰白棚拍背景。", 768, 1152),
-            (common + "角色主视觉全身，姿态自然，纯浅灰白棚拍背景。", 768, 1152),
-            (common + "严格90度侧面全身，头顶到鞋底完整。", 768, 1152),
-            (common + "严格180度背面全身，头顶到鞋底完整。", 768, 1152),
-            (common + "动作姿态A，完整全身。", 768, 1152),
-            (common + "动作姿态B，完整全身。", 768, 1152),
-            (common + "正面头像特写，头部和肩部完整。", 768, 768),
-            (common + "微笑表情头肩特写。", 768, 768),
-            (common + "生气表情头肩特写。", 768, 768),
-            (common + "难过表情头肩特写。", 768, 768),
-            (common + "惊讶表情头肩特写。", 768, 768),
-            (common + "眼睛和妆容细节特写。", 768, 768),
-            (common + "手部和戒指细节特写。", 768, 768),
-            (common + "服装领口和结构细节特写。", 768, 768),
-            (common + "主面料纹理细节A。", 768, 768),
-            (common + "面料褶皱细节B。", 768, 768),
-            (common + "纽扣、缝线和五金细节。", 768, 768),
-            (common + "标志性配饰和项链完整特写。", 768, 768),
-            (common + "鞋履结构细节特写。", 768, 768),
-            (common + "背部服装结构和接缝细节。", 768, 768),
+            (common + "正面完整全身，从头到脚全部入镜，居中自然站立，双臂下垂，不要裁切脚部，纯浅灰白棚拍背景。", *BODY),
+            (common + "角色主视觉完整全身，从头到脚全部入镜，姿态自然，纯浅灰白棚拍背景。", *BODY),
+            (common + "严格90度侧面完整全身，从头到脚全部入镜，不要裁切脚部。", *BODY),
+            (common + "严格180度背面完整全身，从头到脚全部入镜，不要裁切脚部。", *BODY),
+            (common + "动作姿态A，完整全身，从头到脚入镜。", *BODY),
+            (common + "动作姿态B，完整全身，从头到脚入镜。", *BODY),
+            (common + "正面头像特写，头肩填满画面，五官清晰。", *HEAD),
+            (common + "微笑表情头肩特写，填满画面。", *HEAD),
+            (common + "生气表情头肩特写，填满画面。", *HEAD),
+            (common + "难过表情头肩特写，填满画面。", *HEAD),
+            (common + "惊讶表情头肩特写，填满画面。", *HEAD),
+            (common + "眼睛和妆容细节特写。", *HEAD),
+            (common + "手部和戒指细节特写。", *HEAD),
+            (common + "服装领口和结构细节特写。", *HEAD),
+            (common + "主面料纹理细节A。", *HEAD),
+            (common + "面料褶皱细节B。", *HEAD),
+            (common + "纽扣、缝线和五金细节。", *HEAD),
+            (common + "标志性配饰和项链完整特写。", *HEAD),
+            (common + "鞋履结构细节特写。", *HEAD),
+            (common + "背部服装结构和接缝细节。", *HEAD),
         ]
         images = []
-        anchor = None
         for index, (prompt, width, height) in enumerate(prompts):
-            refs = None
-            if index == 0 and reference_image is not None:
-                refs = {"image_1": reference_image}
-            elif index > 0:
-                refs = {}
-                if reference_image is not None:
-                    refs["image_1"] = reference_image
-                if anchor is not None:
-                    refs["image_2"] = anchor
+            # 身份锁：每一格都只把用户上传的参考图当身份参考，
+            # 不再把上一张生成图当 image_2（否则 Qwen 照抄上一张构图 → 重复图）。
+            refs = {}
+            if reference_image is not None:
+                refs["image_1"] = reference_image
             encoded = TextEncodeQwenImage21.execute(clip, prompt, negative, vae, 1024, refs).result
             positive, neg, _ = encoded
             latent = {"samples": torch.zeros((1, 64, height // 16, width // 16), device=comfy.model_management.intermediate_device())}
             sampled = comfy_nodes.common_ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, neg, latent, denoise=1.0)[0]
             image = vae.decode(sampled["samples"])
             images.append(image)
-            if index == 0:
-                anchor = image
         pil_assets = [tensor_to_pil(image) for image in images]
         card, assets, report = _compose_individual_assets(
             pil_assets,
