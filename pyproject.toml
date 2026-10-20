@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-character-card-studio"
+description = "Visual character card sheet editor and prompt compiler for Qwen-Image 2.1 in ComfyUI."
+readme = "README.md"
+version = "1.0.0"
+license = { text = "MIT" }
+dependencies = []
+
+[tool.comfy]
+PublisherId = "aicg3d"
+DisplayName = "Character Card Studio"
+Icon = ""
+
+[project.urls]
+Repository = "https://github.com/JGRFW/ComfyUI-CharacterCardStudio"

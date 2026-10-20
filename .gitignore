@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+_render_test/
+_ui_test/
+_comfy_test*.log
+_render_test_*.png
+_render_test_*.txt
+.pytest_cache/

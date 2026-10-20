@@ -1,0 +1,581 @@
+{
+  "id": "f6d7c551-5fe8-4d5a-9b20-fivecardlinear",
+  "revision": 0,
+  "last_node_id": 6,
+  "last_link_id": 11,
+  "nodes": [
+    {
+      "id": 100,
+      "type": "LoadImage",
+      "pos": [
+        -1720,
+        120
+      ],
+      "size": [
+        330,
+        360
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "label": "上传",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            1
+          ]
+        },
+        {
+          "label": "遮罩",
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "",
+        "image"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "AICG3D_CardSettingsFive",
+      "pos": [
+        -1320,
+        120
+      ],
+      "size": [
+        480,
+        430
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "参考图",
+          "name": "reference_image",
+          "type": "IMAGE",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "label": "角色卡设置",
+          "name": "角色卡设置",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            2
+          ]
+        },
+        {
+          "label": "参考图",
+          "name": "参考图",
+          "type": "IMAGE",
+          "slot_index": 1,
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AICG3D_CardSettingsFive"
+      },
+      "widgets_values": [
+        "reference_profile_18 | 参考角色卡18格",
+        "原创男性角色，20岁，黑色短发，灰蓝色眼睛，清瘦脸型，深灰短袖、黑色长裤和白色运动鞋。",
+        "未命名角色",
+        "电影级角色设定，干净背景，柔和棚拍光，专业角色资产",
+        false,
+        "完整显示"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "AICG3D_Qwen21ModelLoader",
+      "pos": [
+        -780,
+        120
+      ],
+      "size": [
+        500,
+        420
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "角色卡设置",
+          "name": "settings",
+          "type": "STRING",
+          "link": 2
+        },
+        {
+          "label": "UNET名称",
+          "name": "unet_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "unet_name"
+          },
+          "link": null
+        },
+        {
+          "label": "CLIP名称",
+          "name": "clip_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": null
+        },
+        {
+          "label": "VAE名称",
+          "name": "vae_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "vae_name"
+          },
+          "link": null
+        },
+        {
+          "label": "权重类型",
+          "name": "weight_dtype",
+          "type": "COMBO",
+          "widget": {
+            "name": "weight_dtype"
+          },
+          "link": null
+        },
+        {
+          "label": "设备",
+          "name": "device",
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
+          "link": null
+        },
+        {
+          "label": "参考图",
+          "name": "reference_image",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "label": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            5
+          ]
+        },
+        {
+          "label": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 1,
+          "links": [
+            6
+          ]
+        },
+        {
+          "label": "VAE",
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 2,
+          "links": [
+            7
+          ]
+        },
+        {
+          "label": "角色卡设置",
+          "name": "角色卡设置",
+          "type": "STRING",
+          "slot_index": 3,
+          "links": [
+            4
+          ]
+        },
+        {
+          "label": "参考图",
+          "name": "参考图",
+          "type": "IMAGE",
+          "slot_index": 4,
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AICG3D_Qwen21ModelLoader"
+      },
+      "widgets_values": [
+        "qwen\\qwen_image_2.1_bf16.safetensors",
+        "qwen3vl_8b_int8_convrot.safetensors",
+        "qwen_image_2.1_vae_bf16.safetensors",
+        "default",
+        "default"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "AICG3D_CharacterCardGeneratorSingle",
+      "pos": [
+        -180,
+        120
+      ],
+      "size": [
+        460,
+        430
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "角色卡设置",
+          "name": "settings",
+          "type": "STRING",
+          "link": 4
+        },
+        {
+          "label": "MODEL",
+          "name": "model",
+          "type": "MODEL",
+          "link": 5
+        },
+        {
+          "label": "CLIP",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 6
+        },
+        {
+          "label": "VAE",
+          "name": "vae",
+          "type": "VAE",
+          "link": 7
+        },
+        {
+          "label": "种子",
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "label": "步数",
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": null
+        },
+        {
+          "label": "CFG",
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": null
+        },
+        {
+          "label": "采样器",
+          "name": "sampler_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "link": null
+        },
+        {
+          "label": "调度器",
+          "name": "scheduler",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": null
+        },
+        {
+          "label": "参考图",
+          "name": "reference_image",
+          "type": "IMAGE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "label": "角色卡",
+          "name": "角色卡",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            9,
+            10
+          ]
+        },
+        {
+          "label": "资产批次",
+          "name": "资产批次",
+          "type": "IMAGE",
+          "slot_index": 1,
+          "links": [
+            11
+          ]
+        },
+        {
+          "label": "生成报告",
+          "name": "生成报告",
+          "type": "STRING",
+          "slot_index": 2,
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AICG3D_CharacterCardGeneratorSingle"
+      },
+      "widgets_values": [
+        42,
+        8,
+        3.0,
+        "euler",
+        "simple"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "PreviewImage",
+      "pos": [
+        380,
+        120
+      ],
+      "size": [
+        760,
+        760
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "localized_name": "图像",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 9
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "SaveImage",
+      "pos": [
+        380,
+        930
+      ],
+      "size": [
+        620,
+        760
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "localized_name": "图像",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 10
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "角色卡_五种版式"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "PreviewImage",
+      "pos": [
+        -180,
+        600
+      ],
+      "size": [
+        460,
+        520
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "localized_name": "图像",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 11
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    }
+  ],
+  "links": [
+    [
+      1,
+      100,
+      0,
+      1,
+      0,
+      "IMAGE"
+    ],
+    [
+      2,
+      1,
+      0,
+      2,
+      0,
+      "STRING"
+    ],
+    [
+      3,
+      1,
+      1,
+      2,
+      6,
+      "IMAGE"
+    ],
+    [
+      4,
+      2,
+      3,
+      3,
+      0,
+      "STRING"
+    ],
+    [
+      5,
+      2,
+      0,
+      3,
+      1,
+      "MODEL"
+    ],
+    [
+      6,
+      2,
+      1,
+      3,
+      2,
+      "CLIP"
+    ],
+    [
+      7,
+      2,
+      2,
+      3,
+      3,
+      "VAE"
+    ],
+    [
+      8,
+      2,
+      4,
+      3,
+      9,
+      "IMAGE"
+    ],
+    [
+      9,
+      3,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      10,
+      3,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ],
+    [
+      11,
+      3,
+      1,
+      6,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "一条主线：设置 → 模型 → 生成 → 成品",
+      "bounding": [
+        -1740,
+        20,
+        2920,
+        1740
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "frontendVersion": "1.53.6"
+  },
+  "version": 0.4
+}

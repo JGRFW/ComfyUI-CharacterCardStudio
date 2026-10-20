@@ -1,0 +1,1 @@
+# ComfyUI already provides Pillow, NumPy, torch and aiohttp.
