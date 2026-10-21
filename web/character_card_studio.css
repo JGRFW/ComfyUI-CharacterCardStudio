@@ -498,11 +498,35 @@
   display: grid;
   place-items: center;
   padding: 0;
+  font-size: 12px;
+  line-height: 1;
   color: #eff1f4;
   background: rgba(26, 29, 34, 0.84);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 4px;
   cursor: pointer;
+}
+
+.ccs-cell-quick button:hover {
+  background: rgba(50, 55, 65, 0.92);
+}
+
+.ccs-cell-toggle.is-off {
+  background: rgba(180, 80, 80, 0.85);
+  border-color: rgba(255, 120, 120, 0.4);
+}
+
+.ccs-cell.is-disabled {
+  opacity: 0.38;
+  filter: grayscale(0.6);
+}
+
+.ccs-cell.is-disabled .ccs-cell-quick {
+  display: flex;
+}
+
+.ccs-cell.is-disabled .ccs-cell-quick button {
+  background: rgba(60, 60, 60, 0.9);
 }
 
 .ccs-template-strip {

@@ -572,9 +572,12 @@ function buildUi(node, payload, state) {
     const stageTitle = el("div", "ccs-stage-title", "版式预览");
     const stageMeta = el("div", "ccs-stage-meta");
     const stageSpacer = el("div", "ccs-stage-spacer");
+    const restoreButton = el("button", "ccs-btn ccs-btn--small", "一键恢复");
+    restoreButton.type = "button";
+    restoreButton.title = "重新启用所有画格";
     const fillEmptyButton = el("button", "ccs-btn ccs-btn--small", "顺序填充");
     fillEmptyButton.type = "button";
-    stageHead.append(stageTitle, stageMeta, stageSpacer, fillEmptyButton);
+    stageHead.append(stageTitle, stageMeta, stageSpacer, restoreButton, fillEmptyButton);
 
     const boardWrap = el("div", "ccs-board-wrap");
     const board = el("div", "ccs-board");
@@ -626,6 +629,7 @@ function buildUi(node, payload, state) {
         copyButton,
         stageMeta,
         fillEmptyButton,
+        restoreButton,
         boardWrap,
         board,
         templateStrip,
@@ -669,6 +673,17 @@ function buildUi(node, payload, state) {
     globalTab.addEventListener("click", () => setActiveTab(ui, "global"));
     copyButton.addEventListener("click", () => copyState(ui));
     fillEmptyButton.addEventListener("click", () => fillEmptySlots(ui));
+    restoreButton.addEventListener("click", () => {
+        let count = 0;
+        for (const slot of ui.state.slots) {
+            if (slot.enabled === false) {
+                slot.enabled = true;
+                count++;
+            }
+        }
+        commitUi(ui, { board: true, inspector: true, sync: true });
+        ui.showToast(count ? `已恢复 ${count} 个画格` : "所有画格已启用");
+    });
 
     ui.renderAll = () => {
         renderTemplateStrip(ui);
@@ -1165,7 +1180,8 @@ function renderBoard(ui) {
     const template = templateFor(ui.state, ui.payload);
     template.cells.forEach((cell, index) => {
         const slot = ui.state.slots[index] || slotFromCell(cell, index);
-        const cellNode = el("div", `ccs-cell${index === ui.selectedIndex ? " is-selected" : ""}`);
+        const isDisabled = slot.enabled === false;
+        const cellNode = el("div", `ccs-cell${index === ui.selectedIndex ? " is-selected" : ""}${isDisabled ? " is-disabled" : ""}`);
         cellNode.style.left = `${cell.x * 100}%`;
         cellNode.style.top = `${cell.y * 100}%`;
         cellNode.style.width = `${cell.w * 100}%`;
@@ -1190,12 +1206,20 @@ function renderBoard(ui) {
         const indexBadge = el("div", "ccs-cell-index", String(index + 1).padStart(2, "0"));
         const caption = el("div", "ccs-cell-caption", slot.label || cell.label);
         const quick = el("div", "ccs-cell-quick");
+        const toggle = el("button", `ccs-cell-toggle${isDisabled ? " is-off" : ""}`, isDisabled ? "🚫" : "👁");
         const replace = el("button", "", "↻");
         const clear = el("button", "", "×");
+        toggle.type = "button";
         replace.type = "button";
         clear.type = "button";
+        toggle.title = isDisabled ? "启用此画格" : "禁用此画格";
         replace.title = "替换图片";
         clear.title = "清空图片";
+        toggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            slot.enabled = slot.enabled === false;
+            commitUi(ui, { board: true, inspector: true, sync: true });
+        });
         replace.addEventListener("click", (event) => {
             event.stopPropagation();
             openFilePicker(ui, index);
@@ -1207,7 +1231,7 @@ function renderBoard(ui) {
             ui.selectedIndex = index;
             commitUi(ui, { board: true, inspector: true, library: true, sync: true });
         });
-        quick.append(replace, clear);
+        quick.append(toggle, replace, clear);
         cellNode.append(media, indexBadge, caption, quick);
 
         cellNode.addEventListener("click", () => {
