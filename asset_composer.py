@@ -11,7 +11,7 @@ from .renderer import fit_image_to_box
 from .splitter import _draw_label
 
 
-def _rgb(value: Any, fallback: str = "#f3f4f6") -> tuple[int, int, int]:
+def _rgb(value: Any, fallback: str = "#ffffff") -> tuple[int, int, int]:
     try:
         return ImageColor.getrgb(str(value))
     except (TypeError, ValueError):
@@ -107,7 +107,7 @@ def compose_role_card(
     defaults = template.get("defaults", {})
     width = int(template.get("width", 2048))
     height = int(template.get("height", 1152))
-    canvas = Image.new("RGB", (width, height), _rgb(defaults.get("background"), "#f3f4f6"))
+    canvas = Image.new("RGB", (width, height), _rgb(defaults.get("background"), "#ffffff"))
     draw = ImageDraw.Draw(canvas)
     draw.rectangle((0, 0, width, max(3, int(height * 0.006))), fill=_rgb(defaults.get("accent"), "#d86b73"))
 

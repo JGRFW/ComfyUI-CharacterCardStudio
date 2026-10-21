@@ -57,7 +57,7 @@ def _load_image(image: str, subfolder: str = "") -> Image.Image | None:
         return None
 
 
-def _rgb(value: Any, fallback: str = "#f3f4f6") -> tuple[int, int, int]:
+def _rgb(value: Any, fallback: str = "#ffffff") -> tuple[int, int, int]:
     try:
         return ImageColor.getrgb(str(value))
     except (ValueError, TypeError):

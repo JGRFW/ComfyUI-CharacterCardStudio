@@ -12,7 +12,7 @@ from PIL import Image, ImageColor, ImageDraw
 from .renderer import fit_image_to_box
 
 
-def _rgb(value: Any, fallback: str = "#f3f4f6") -> tuple[int, int, int]:
+def _rgb(value: Any, fallback: str = "#ffffff") -> tuple[int, int, int]:
     try:
         return ImageColor.getrgb(str(value))
     except (TypeError, ValueError):
@@ -107,7 +107,7 @@ def recompose_card(
     defaults = target_template.get("defaults", {})
     width = int(defaults.get("width") or target_template.get("width") or 2048)
     height = int(defaults.get("height") or target_template.get("height") or 1152)
-    canvas = Image.new("RGB", (width, height), _rgb(defaults.get("background"), "#f3f4f6"))
+    canvas = Image.new("RGB", (width, height), _rgb(defaults.get("background"), "#ffffff"))
     draw = ImageDraw.Draw(canvas)
     accent = _rgb(defaults.get("accent"), "#d86b73")
     draw.rectangle((0, 0, width, max(3, int(height * 0.006))), fill=accent)
