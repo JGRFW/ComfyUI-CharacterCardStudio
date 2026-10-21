@@ -42,10 +42,120 @@ def _cell(
 
 
 TEMPLATES: list[dict[str, Any]] = [
-    # ===== 用户目标版式：上传一张图 → 输出干净多视图 =====
+    # ===== 1. 四格·偏立（4格：左大头像 + 右3全身竖排）=====
+    {
+        "id": "bighead_body3",
+        "name": "四格·偏立",
+        "description": "左侧一个超大头肩特写，右侧竖排正面/侧面/背面三个完整全身。",
+        "width": 1920,
+        "height": 1200,
+        "defaults": {
+            "title": "未命名角色",
+            "subtitle": "角色设定",
+            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
+            "background": "#ffffff",
+            "accent": "#d86b73",
+        },
+        "cells": [
+            _cell("head_big", "大头像", "portrait", "超大头肩正面特写，五官清晰，正视镜头。", 0.03, 0.03, 0.40, 0.94),
+            _cell("body_front", "正面全身", "turnaround", "完整正面全身，头顶到鞋底。", 0.46, 0.12, 0.16, 0.78),
+            _cell("body_side", "侧面全身", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.635, 0.12, 0.16, 0.78),
+            _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.81, 0.12, 0.16, 0.78),
+        ],
+    },
+    # ===== 2. 四格·双帧（4格：上排2头 + 下排2全身）=====
+    {
+        "id": "dualfour_ref",
+        "name": "四格·双帧",
+        "description": "上排正面头像+侧面头像，下排正面全身+背面全身。",
+        "width": 1920,
+        "height": 1200,
+        "defaults": {
+            "title": "未命名角色",
+            "subtitle": "双视设定",
+            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
+            "background": "#ffffff",
+            "accent": "#6b8dd8",
+        },
+        "cells": [
+            _cell("head_front", "正面头像", "portrait", "头肩正面特写，正视镜头。", 0.03, 0.03, 0.46, 0.43),
+            _cell("head_side", "侧面头像", "portrait", "头肩90度侧面特写，人物面朝画面正右方，只能看到左半边脸和左耳。", 0.51, 0.03, 0.46, 0.43),
+            _cell("body_front", "正面全身", "turnaround", "完整正面全身，正视镜头，头顶到鞋底。", 0.03, 0.52, 0.46, 0.45),
+            _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.51, 0.52, 0.46, 0.45),
+        ],
+    },
+    # ===== 3. 五格·正反（5格：上排2头 + 下排3全身）=====
+    {
+        "id": "fiveref",
+        "name": "五格·正反",
+        "description": "上排正面头像+背面头像，下排正面/侧面/背面三个完整全身。",
+        "width": 1920,
+        "height": 1200,
+        "defaults": {
+            "title": "未命名角色",
+            "subtitle": "五视设定",
+            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
+            "background": "#ffffff",
+            "accent": "#65a89a",
+        },
+        "cells": [
+            _cell("head_front", "正面头像", "portrait", "头肩正面特写，正视镜头。", 0.03, 0.03, 0.47, 0.43),
+            _cell("head_back", "背面头像", "portrait", "头肩背面特写，展示后脑发型。", 0.50, 0.03, 0.47, 0.43),
+            _cell("body_front", "正面全身", "turnaround", "完整正面全身，正视镜头，头顶到鞋底。", 0.03, 0.52, 0.305, 0.45),
+            _cell("body_side", "侧面全身", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.348, 0.52, 0.305, 0.45),
+            _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.665, 0.52, 0.305, 0.45),
+        ],
+    },
+    # ===== 4. 六格·三视图（6格：上排3头 + 下排3全身）=====
+    {
+        "id": "head_body_6",
+        "name": "六格·三视图",
+        "description": "上排头肩正面/侧面/后脑，下排正面/侧面/背面完整全身。",
+        "width": 1920,
+        "height": 1280,
+        "defaults": {
+            "title": "未命名角色",
+            "subtitle": "三视图设定",
+            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
+            "background": "#ffffff",
+            "accent": "#6b8dd8",
+        },
+        "cells": [
+            _cell("head_front", "正面头像", "portrait", "头肩正面特写，正视镜头。", 0.03, 0.03, 0.303, 0.43),
+            _cell("head_side", "侧面头像", "portrait", "头肩90度侧面特写，人物面朝画面正右方，只能看到左半边脸和左耳。", 0.345, 0.03, 0.303, 0.43),
+            _cell("head_back", "后脑头像", "portrait", "头肩背面特写，展示后脑发型。", 0.66, 0.03, 0.303, 0.43),
+            _cell("body_front", "正面全身", "turnaround", "完整正面全身，正视镜头，头顶到鞋底。", 0.03, 0.52, 0.303, 0.45),
+            _cell("body_side", "侧面全身", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.345, 0.52, 0.303, 0.45),
+            _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.66, 0.52, 0.303, 0.45),
+        ],
+    },
+    # ===== 5. 六格·斜帧（6格：上排3头含四分之三视角 + 下排3全身）=====
+    {
+        "id": "sixtilt_ref",
+        "name": "六格·斜帧",
+        "description": "上排正面/四分之三斜侧/后脑三个头像，下排正面/侧面/背面三个完整全身。",
+        "width": 1920,
+        "height": 1280,
+        "defaults": {
+            "title": "未命名角色",
+            "subtitle": "斜侧设定",
+            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
+            "background": "#ffffff",
+            "accent": "#9b7dd8",
+        },
+        "cells": [
+            _cell("head_front", "正面头像", "portrait", "头肩正面特写，正视镜头。", 0.03, 0.03, 0.303, 0.43),
+            _cell("head_three_quarter", "斜侧头像", "portrait", "头肩四分之三斜侧特写，脸朝画面右前方，眼神看向镜头。", 0.345, 0.03, 0.303, 0.43),
+            _cell("head_back", "后脑头像", "portrait", "头肩背面特写，展示后脑发型。", 0.66, 0.03, 0.303, 0.43),
+            _cell("body_front", "正面全身", "turnaround", "完整正面全身，正视镜头，头顶到鞋底。", 0.03, 0.52, 0.303, 0.45),
+            _cell("body_side", "侧面全身", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.345, 0.52, 0.303, 0.45),
+            _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.66, 0.52, 0.303, 0.45),
+        ],
+    },
+    # ===== 6. 八格·表情谱（8格：上排4表情 + 下排4全身）=====
     {
         "id": "expr_body_8",
-        "name": "表情4格+全身4格(2x4)",
+        "name": "八格·表情谱",
         "description": "上排4个头肩表情，下排4个完整全身（正/侧/背/另一侧）。",
         "width": 1920,
         "height": 1200,
@@ -67,58 +177,44 @@ TEMPLATES: list[dict[str, Any]] = [
             _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，只能看到后脑和后背，头顶到鞋底。", 0.743, 0.52, 0.225, 0.45),
         ],
     },
+    # ===== 7. 十格·设定集（10格：主立绘+3全身+3表情+3细节）=====
     {
-        "id": "head_body_6",
-        "name": "头部3格+全身3格(2x3)",
-        "description": "上排头肩正面/侧面/后脑，下排正面/侧面/背面完整全身。",
-        "width": 1920,
-        "height": 1280,
+        "id": "school_ref",
+        "name": "十格·设定集",
+        "description": "左侧主立绘，右上三视图，右下表情参考与细节拆解。",
+        "width": 2000,
+        "height": 1400,
         "defaults": {
             "title": "未命名角色",
-            "subtitle": "三视图设定",
-            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
+            "subtitle": "角色设定集",
+            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光",
             "background": "#ffffff",
-            "accent": "#6b8dd8",
+            "accent": "#e08a9a",
         },
         "cells": [
-            _cell("head_front", "正面头像", "portrait", "头肩正面特写，正视镜头。", 0.03, 0.03, 0.303, 0.43),
-            _cell("head_side", "侧面头像", "portrait", "头肩90度侧面特写，人物面朝画面正右方，只能看到左半边脸和左耳。", 0.345, 0.03, 0.303, 0.43),
-            _cell("head_back", "后脑头像", "portrait", "头肩背面特写，展示后脑发型。", 0.66, 0.03, 0.303, 0.43),
-            _cell("body_front", "正面全身", "turnaround", "完整正面全身，正视镜头，头顶到鞋底。", 0.03, 0.52, 0.303, 0.45),
-            _cell("body_side", "侧面全身", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.345, 0.52, 0.303, 0.45),
-            _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.66, 0.52, 0.303, 0.45),
+            _cell("hero", "主立绘", "hero", "完整全身主立绘，自然站姿，头顶到鞋底。", 0.03, 0.08, 0.30, 0.86),
+            _cell("body_front", "正面", "turnaround", "完整正面全身，正视镜头，头顶到鞋底。", 0.36, 0.08, 0.20, 0.40),
+            _cell("body_side", "侧面", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.58, 0.08, 0.20, 0.40),
+            _cell("body_back", "背面", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.80, 0.08, 0.17, 0.40),
+            _cell("ex_1", "微笑", "expression", "头肩特写，张嘴露齿微笑，眼睛弯成月牙，充满活力。", 0.36, 0.52, 0.20, 0.20),
+            _cell("ex_2", "沉思", "expression", "头肩特写，低头眼帘下垂，侧脸不看镜头，表情安静。", 0.58, 0.52, 0.20, 0.20),
+            _cell("ex_3", "惊讶", "expression", "头肩特写，张嘴惊呼，眼睛瞪大。", 0.80, 0.52, 0.17, 0.20),
+            _cell("de_1", "服装细节", "detail", "服饰面料特写。", 0.36, 0.75, 0.20, 0.20),
+            _cell("de_2", "配饰细节", "detail", "配饰特写。", 0.58, 0.75, 0.20, 0.20),
+            _cell("de_3", "鞋履细节", "detail", "鞋履特写。", 0.80, 0.75, 0.17, 0.20),
         ],
     },
-    {
-        "id": "bighead_body3",
-        "name": "大头像+3全身",
-        "description": "左侧一个超大头肩特写，右侧竖排正面/侧面/背面三个完整全身。",
-        "width": 1920,
-        "height": 1200,
-        "defaults": {
-            "title": "未命名角色",
-            "subtitle": "角色设定",
-            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
-            "background": "#ffffff",
-            "accent": "#d86b73",
-        },
-        "cells": [
-            _cell("head_big", "大头像", "portrait", "超大头肩正面特写，五官清晰，正视镜头。", 0.03, 0.03, 0.40, 0.94),
-            _cell("body_front", "正面全身", "turnaround", "完整正面全身，头顶到鞋底。", 0.46, 0.12, 0.16, 0.78),
-            _cell("body_side", "侧面全身", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.635, 0.12, 0.16, 0.78),
-            _cell("body_back", "背面全身", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.81, 0.12, 0.16, 0.78),
-        ],
-    },
+    # ===== 8. 十四格·全图鉴（14格：4全身+3头+3表情+3细节+1面料）=====
     {
         "id": "xianxia_ref",
-        "name": "修仙女主全套(简化)",
-        "description": "左上4个完整全身，左下3个头肩特写，右侧表情6宫格+细节。",
+        "name": "十四格·全图鉴",
+        "description": "左上4个完整全身，左下3个头肩特写，右侧表情6宫格+细节拆解。",
         "width": 2200,
         "height": 1300,
         "defaults": {
-            "title": "修仙女主",
-            "subtitle": "人物多视图设定",
-            "style": "古风修仙角色资产，纯白棚拍背景，柔和棚拍光，写实精致",
+            "title": "未命名角色",
+            "subtitle": "完整图鉴",
+            "style": "统一角色资产，纯白棚拍背景，柔和棚拍光，写实精致",
             "background": "#ffffff",
             "accent": "#7a9bd8",
         },
@@ -135,34 +231,8 @@ TEMPLATES: list[dict[str, Any]] = [
             _cell("ex_3", "闭眼沉思", "expression", "头肩特写，闭眼沉思，眼帘低垂，嘴唇微抿。", 0.84, 0.03, 0.12, 0.19),
             _cell("ex_4", "蹙眉清冷", "expression", "头肩特写，蹙眉清冷，眉头微皱，眼神冷峻直视。", 0.58, 0.24, 0.12, 0.19),
             _cell("de_1", "眼部细节", "detail", "眼睛微距特写，展示瞳色和睫毛。", 0.71, 0.24, 0.12, 0.19),
-            _cell("de_2", "发饰细节", "detail", "发饰或耳饰微距特写。", 0.84, 0.24, 0.12, 0.19),
-            _cell("de_3", "面料细节", "detail", "服饰面料刺绣微距特写。", 0.58, 0.45, 0.38, 0.19),
-        ],
-    },
-    {
-        "id": "school_ref",
-        "name": "校服少女设定卡(简化)",
-        "description": "左侧主立绘，右上三视图，右下服装拆解与表情参考。",
-        "width": 2000,
-        "height": 1400,
-        "defaults": {
-            "title": "校服少女",
-            "subtitle": "角色设定",
-            "style": "学院风角色资产，纯白棚拍背景，柔和棚拍光",
-            "background": "#ffffff",
-            "accent": "#e08a9a",
-        },
-        "cells": [
-            _cell("hero", "主立绘", "hero", "完整全身主立绘，自然站姿，头顶到鞋底。", 0.03, 0.08, 0.30, 0.86),
-            _cell("body_front", "正面", "turnaround", "完整正面全身，正视镜头，头顶到鞋底。", 0.36, 0.08, 0.20, 0.40),
-            _cell("body_side", "侧面", "turnaround", "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", 0.58, 0.08, 0.20, 0.40),
-            _cell("body_back", "背面", "turnaround", "完整180度背面全身，头顶到鞋底。", 0.80, 0.08, 0.17, 0.40),
-            _cell("ex_1", "甜美微笑", "expression", "头肩特写，张嘴露齿甜笑，眼睛弯成月牙，充满活力。", 0.36, 0.52, 0.20, 0.20),
-            _cell("ex_2", "低头沉思", "expression", "头肩特写，低头眼帘下垂，侧脸不看镜头，表情安静。", 0.58, 0.52, 0.20, 0.20),
-            _cell("ex_3", "惊讶张嘴", "expression", "头肩特写，张嘴惊呼，眼睛瞪大，手轻抬下巴。", 0.80, 0.52, 0.17, 0.20),
-            _cell("de_1", "服装细节", "detail", "衬衫或马甲面料特写。", 0.36, 0.75, 0.20, 0.20),
-            _cell("de_2", "配饰细节", "detail", "领结或发饰特写。", 0.58, 0.75, 0.20, 0.20),
-            _cell("de_3", "鞋履细节", "detail", "乐福鞋特写。", 0.80, 0.75, 0.17, 0.20),
+            _cell("de_2", "配饰细节", "detail", "配饰微距特写。", 0.84, 0.24, 0.12, 0.19),
+            _cell("de_3", "面料细节", "detail", "服饰面料微距特写。", 0.58, 0.45, 0.38, 0.19),
         ],
     },
 ]
@@ -170,7 +240,10 @@ TEMPLATES: list[dict[str, Any]] = [
 TEMPLATE_BY_ID = {template["id"]: template for template in TEMPLATES}
 FIVE_TEMPLATE_IDS = [
     "bighead_body3",
+    "dualfour_ref",
+    "fiveref",
     "head_body_6",
+    "sixtilt_ref",
     "expr_body_8",
     "school_ref",
     "xianxia_ref",
@@ -178,7 +251,7 @@ FIVE_TEMPLATE_IDS = [
 FIVE_TEMPLATE_OPTIONS = [f"{template_id} | {TEMPLATE_BY_ID[template_id]['name']}" for template_id in FIVE_TEMPLATE_IDS]
 TEMPLATE_OPTIONS = [f"{template['id']} | {template['name']}" for template in TEMPLATES]
 DEFAULT_TEMPLATE_OPTION = next(
-    (option for option in TEMPLATE_OPTIONS if option.startswith("expr_body_8 |")),
+    (option for option in TEMPLATE_OPTIONS if option.startswith("head_body_6 |")),
     TEMPLATE_OPTIONS[0],
 )
 SOURCE_TEMPLATE_OPTIONS = ["source | 与输入卡版相同", *TEMPLATE_OPTIONS]
