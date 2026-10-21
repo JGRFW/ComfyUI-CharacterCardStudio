@@ -1,5 +1,7 @@
 # ComfyUI Character Card Studio
 
+![version](https://img.shields.io/badge/version-1.1.0-blue)
+
 > 面向 **Qwen-Image 2.1** 的 ComfyUI 角色卡（Character Sheet / 人设参考图）自动生成插件。
 > 一张角色图或一段人物提示词 → 自动生成多视图 / 表情 / 细节 → 按卡版切片 → 重排成最终角色卡。
 
