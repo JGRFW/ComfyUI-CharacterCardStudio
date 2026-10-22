@@ -80,8 +80,12 @@ def _cell_generation_prompt(cell: dict[str, Any], slot: dict[str, Any], common: 
             "场景为主，不新增人物或动物，不拼贴，不要画框。"
         ),
         "scene_view": (
-            "生成同一场景的单张空间视图。严格延续参考图的空间结构、主要物件、材质和光照，"
-            "只改变相机朝向；场景为主，不新增人物或动物，不拼贴，不要画框。"
+            "生成同一场景的单张环视视角。必须真正转动相机方位，展示参考方向中未出现的空间；"
+            "延续空间结构、主要物件、材质和光照，场景为主，不新增人物或动物，不拼贴，不要画框。"
+        ),
+        "scene_panorama": (
+            "生成同一场景的横向360°连续全景展开图，按照0°、90°、180°、270°、回到0°的顺序"
+            "自然衔接，不能重复同一构图；场景为主，不新增人物或动物，不拼贴，不要画框。"
         ),
         "scene_detail": (
             "生成同一场景的单张环境材质微距，只展示材质、纹理、植被、建筑构件或装饰局部，"
@@ -193,7 +197,7 @@ class CardSettingsFive:
     FUNCTION = "build"
     RETURN_TYPES = ("STRING", "IMAGE")
     RETURN_NAMES = ("角色卡设置", "参考图")
-    DESCRIPTION = "提供八种角色卡版式和一套通用场景多视图；节点 ID 保留旧名称以兼容已有工作流。"
+    DESCRIPTION = "提供八种角色卡版式和一套通用场景360°环视图；节点 ID 保留旧名称以兼容已有工作流。"
 
     @classmethod
     def INPUT_TYPES(cls) -> dict[str, Any]:
@@ -214,7 +218,7 @@ class CardSettingsFive:
                 "scene_prompt": (
                     "STRING",
                     {
-                        "default": "完整场景，空间结构清晰，地形、建筑、道路、植被或主要物件关系明确，真实材质与统一光照。",
+                        "default": "完整场景，空间结构清晰，支持0°、90°、180°、270°连续环视，地形、建筑、道路、植被或主要物件关系明确，真实材质与统一光照。",
                         "multiline": True,
                     },
                 ),
@@ -353,15 +357,17 @@ class CharacterCardGeneratorSingle:
             anchor_ref = reference_image
             anchor_source = "reference_input"
 
+        scene_refs = [anchor_ref] if is_scene and anchor_ref is not None else []
         subject = state.get("identity") or state.get("appearance") or "原创主体"
         style = state.get("style") or "电影级角色设定"
         negative = str(state.get("negativePrompt") or DEFAULT_NEGATIVE)
         if is_scene:
-            negative += "，新增人物，新增动物，场景结构漂移，地形变化，建筑位置错乱，主要物件形变，材质不一致，视角重复"
+            negative += "，新增人物，新增动物，场景结构漂移，地形变化，建筑位置错乱，主要物件形变，材质不一致，相同相机方位，复制原图，镜像伪装转向，四格视角重复"
             common = (
                 f"同一个场景。场景设定：{subject}。统一风格：{style}。"
                 "参考图是唯一空间锚点，必须保持地形、建筑、道路、植被、主要物件、材质、颜色和主光方向一致。"
-                "只改变相机朝向，场景为主，不新增人物或动物，视角之间不能重复使用同一张构图。"
+                "按0°、90°、180°、270°连续转动相机，每个方向都要看到不同的空间内容，"
+                "最后再生成360°连续全景；场景为主，不新增人物或动物，不能复制或镜像原图冒充转向。"
             )
         else:
             identity_lock = (
@@ -386,9 +392,17 @@ class CharacterCardGeneratorSingle:
             width, height = _generation_size(cell, int(state["width"]), int(state["height"]))
             prompt = _cell_generation_prompt(cell, slot, common)
             refs = {}
-            reference_for_cell = anchor_ref if is_scene and anchor_ref is not None else reference_image
-            if reference_for_cell is not None:
-                refs["image_1"] = reference_for_cell
+            if is_scene and anchor_ref is not None:
+                if role == "scene_detail":
+                    scene_inputs = scene_refs[:1]
+                elif role == "scene_panorama":
+                    scene_inputs = scene_refs[:4]
+                else:
+                    scene_inputs = scene_refs[:3]
+                for ref_index, scene_input in enumerate(scene_inputs, start=1):
+                    refs[f"image_{ref_index}"] = scene_input
+            elif reference_image is not None:
+                refs["image_1"] = reference_image
             encoded = TextEncodeQwenImage21.execute(clip, prompt, negative, vae, 1024, refs).result
             positive, neg, _ = encoded
             cell_seed = (int(seed) + index * 0x9E3779B1) & 0xFFFFFFFFFFFFFFFF
@@ -415,12 +429,17 @@ class CharacterCardGeneratorSingle:
             if is_scene and role == "scene_anchor" and anchor_ref is None:
                 anchor_ref = image
                 anchor_pil = tensor_to_pil(image)
+                scene_refs = [image]
                 anchor_source = "generated_anchor"
+            elif is_scene and role in {"scene_view", "scene_panorama"}:
+                scene_refs.append(image)
+                scene_refs = scene_refs[:4]
 
         assets = [tensor_to_pil(image) for image in images]
         card, normalized, report = _compose_individual_assets(assets, template, state)
         report["sceneMode"] = is_scene
         report["anchorSource"] = anchor_source if is_scene else ""
+        report["orbitReferenceCount"] = len(scene_refs) if is_scene else 0
         return pil_to_tensor(card), pils_to_tensor(normalized), report_json(report)
 
 

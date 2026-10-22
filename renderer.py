@@ -163,7 +163,7 @@ def _draw_placeholder_icon(draw, image_box, role, image_w, image_h):
         line_w = max(2, head_r // 3)
         draw.line((cx - head_r // 2, body_bottom, cx - head_r // 2, leg_h), fill=icon_color, width=line_w)
         draw.line((cx + head_r // 2, body_bottom, cx + head_r // 2, leg_h), fill=icon_color, width=line_w)
-    elif role in ("scene_anchor", "scene_view"):
+    elif role in ("scene_anchor", "scene_view", "scene_panorama"):
         # Interior-space guide: frame, horizon, and converging room lines.
         box_w = max(14, int(image_w * 0.30))
         box_h = max(12, int(image_h * 0.24))

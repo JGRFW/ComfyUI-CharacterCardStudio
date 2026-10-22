@@ -30,7 +30,7 @@ def main() -> None:
         assert cells, template["id"]
         assert len({cell["id"] for cell in cells}) == len(cells), template["id"]
         assert len({cell["label"] for cell in cells}) == len(cells), template["id"]
-        assert all(cell["role"] in {"hero", "turnaround", "portrait", "expression", "detail", "scene_anchor", "scene_view", "scene_detail"} for cell in cells)
+        assert all(cell["role"] in {"hero", "turnaround", "portrait", "expression", "detail", "scene_anchor", "scene_view", "scene_panorama", "scene_detail"} for cell in cells)
         assert all(0.0 <= cell["x"] <= 1.0 and 0.0 <= cell["y"] <= 1.0 for cell in cells)
         assert all(cell["x"] + cell["w"] <= 1.0001 and cell["y"] + cell["h"] <= 1.0001 for cell in cells)
         for index, cell in enumerate(cells):
@@ -57,6 +57,8 @@ def main() -> None:
     scene_prompt = compile_prompt(scene_state, scene_resolved)
     assert scene_prompt.count("位置：") == len(scene["cells"])
     assert "所有视角必须属于同一个场景" in scene_prompt
+    assert "0°、90°、180°、270°" in scene_prompt
+    assert "360°全景长条" in scene_prompt
     assert "不新增与参考无关的人物或动物" in scene_prompt
     assert "所有人物画格必须是同一个人" not in scene_prompt
     assert "室内" not in scene_prompt

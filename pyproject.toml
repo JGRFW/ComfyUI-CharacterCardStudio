@@ -2,7 +2,7 @@
 name = "comfyui-character-card-studio"
 description = "Visual character card sheet editor and prompt compiler for Qwen-Image 2.1 in ComfyUI."
 readme = "README.md"
-version = "1.2.0"
+version = "1.2.1"
 license = { text = "MIT" }
 dependencies = []
 
