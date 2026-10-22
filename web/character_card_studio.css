@@ -530,11 +530,13 @@
 }
 
 .ccs-template-strip {
-  flex: 0 0 86px;
+  flex: 0 0 auto;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: auto;
   gap: 6px;
-  overflow: hidden;
+  overflow: visible;
+  padding-bottom: 4px;
 }
 
 .ccs-template-card {
@@ -564,9 +566,10 @@
 
 .ccs-template-mini {
   position: relative;
-  flex: 0 0 34px;
-  width: 34px;
-  height: 46px;
+  flex: 0 0 50px;
+  width: 50px;
+  height: auto;
+  aspect-ratio: 1.6;
   overflow: hidden;
   background: #eceef0;
   border: 1px solid #c8ccd2;
@@ -831,6 +834,30 @@
   gap: 7px;
 }
 
+.ccs-swap-btn {
+  align-self: end;
+  height: 30px;
+  border: 1px solid var(--border-color, #3a3a4a);
+  border-radius: 6px;
+  background: var(--bg-input, #2a2a3a);
+  color: #8a8a9a;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+.ccs-swap-btn:hover {
+  background: #3a3a5a;
+  color: #fff;
+  border-color: #6b8dd8;
+}
+.ccs-color-row:has(.ccs-swap-btn) {
+  grid-template-columns: 1fr 32px 1fr;
+}
+
 .ccs-color-field {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr);
@@ -1041,8 +1068,8 @@
 }
 
 .ccs-root.is-compact .ccs-template-strip {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  flex-basis: 138px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  flex-basis: auto;
 }
 
 .ccs-root.is-compact .ccs-template-card {
@@ -1050,9 +1077,9 @@
 }
 
 .ccs-root.is-compact .ccs-template-mini {
-  flex-basis: 34px;
-  width: 34px;
-  height: 42px;
+  flex-basis: 46px;
+  width: 46px;
+  height: auto;
 }
 
 .ccs-root.is-compact .ccs-brand-sub {

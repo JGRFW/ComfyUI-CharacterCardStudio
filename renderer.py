@@ -133,6 +133,69 @@ def _fit_image(
     return resized.crop((left, top, left + box_w, top + box_h))
 
 
+def _draw_placeholder_icon(draw, image_box, role, image_w, image_h):
+    """在空格里画极简轮廓，提示AI这个格子该放什么内容类型。"""
+    cx = image_box[0] + image_w // 2
+    cy = image_box[1] + int(image_h * 0.38)
+    icon_color = (200, 205, 212)
+    head_r = max(6, int(min(image_w, image_h) * 0.12))
+
+    if role in ("portrait", "expression"):
+        # 头肩轮廓
+        draw.ellipse((cx - head_r, cy - head_r, cx + head_r, cy + head_r), fill=icon_color)
+        shoulder_w = head_r * 2
+        shoulder_y = cy + head_r
+        draw.rounded_rectangle(
+            (cx - shoulder_w, shoulder_y, cx + shoulder_w, shoulder_y + head_r * 1.5),
+            radius=head_r // 2, fill=icon_color,
+        )
+    elif role in ("turnaround", "hero"):
+        # 全身轮廓（头+身+腿）
+        body_h = int(image_h * 0.5)
+        draw.ellipse((cx - head_r, cy - head_r, cx + head_r, cy + head_r), fill=icon_color)
+        body_top = cy + head_r
+        body_bottom = body_top + int(body_h * 0.55)
+        draw.rounded_rectangle(
+            (cx - head_r, body_top, cx + head_r, body_bottom),
+            radius=head_r // 2, fill=icon_color,
+        )
+        leg_h = body_bottom + int(body_h * 0.45)
+        line_w = max(2, head_r // 3)
+        draw.line((cx - head_r // 2, body_bottom, cx - head_r // 2, leg_h), fill=icon_color, width=line_w)
+        draw.line((cx + head_r // 2, body_bottom, cx + head_r // 2, leg_h), fill=icon_color, width=line_w)
+    elif role in ("scene_anchor", "scene_view"):
+        # Interior-space guide: frame, horizon, and converging room lines.
+        box_w = max(14, int(image_w * 0.30))
+        box_h = max(12, int(image_h * 0.24))
+        left = cx - box_w
+        right = cx + box_w
+        top = cy - box_h
+        bottom = cy + box_h
+        line_w = max(2, int(min(image_w, image_h) * 0.008))
+        draw.rectangle((left, top, right, bottom), outline=icon_color, width=line_w)
+        horizon = top + int((bottom - top) * 0.56)
+        draw.line((left, horizon, right, horizon), fill=icon_color, width=line_w)
+        draw.line((left, top, cx - box_w // 3, horizon), fill=icon_color, width=line_w)
+        draw.line((right, top, cx + box_w // 3, horizon), fill=icon_color, width=line_w)
+        draw.line((left, bottom, cx - box_w // 3, horizon), fill=icon_color, width=line_w)
+        draw.line((right, bottom, cx + box_w // 3, horizon), fill=icon_color, width=line_w)
+    elif role == "scene_detail":
+        box = max(8, int(min(image_w, image_h) * 0.13))
+        line_w = max(2, box // 6)
+        draw.rectangle((cx - box, cy - box, cx + box, cy + box), outline=icon_color, width=line_w)
+        for offset in (-box // 2, 0, box // 2):
+            draw.line((cx - box, cy + offset, cx + box, cy + offset), fill=icon_color, width=max(1, line_w // 2))
+    elif role == "detail":
+        # 细节格：画一个小圆点/纹理示意
+        dot_r = max(4, int(min(image_w, image_h) * 0.06))
+        for dx, dy in [(-dot_r * 2, -dot_r), (0, 0), (dot_r * 2, -dot_r), (-dot_r, dot_r), (dot_r, dot_r)]:
+            draw.ellipse((cx + dx - dot_r, cy + dy - dot_r, cx + dx + dot_r, cy + dy + dot_r), fill=icon_color)
+    else:
+        # hero/自定义：画个大方框
+        box = max(8, int(min(image_w, image_h) * 0.15))
+        draw.rounded_rectangle((cx - box, cy - box, cx + box, cy + box), radius=box // 3, outline=icon_color, width=max(2, box // 6))
+
+
 def _draw_cell(
     board: Image.Image,
     draw: ImageDraw.ImageDraw,
@@ -150,7 +213,7 @@ def _draw_cell(
     w = max(1, int(round(float(cell.get("w", 1)) * width)))
     h = max(1, int(round(float(cell.get("h", 1)) * height)))
     rect = (x, y, min(width - 1, x + w), min(height - 1, y + h))
-    draw.rounded_rectangle(rect, radius=max(4, int(min(w, h) * 0.02)), fill=(245, 246, 248))
+    draw.rounded_rectangle(rect, radius=max(4, int(min(w, h) * 0.02)), fill=(255, 255, 255))
 
     padding = max(4, int(min(w, h) * 0.018))
     image_box = (x + padding, y + padding, x + w - padding, y + h - padding)
@@ -170,27 +233,31 @@ def _draw_cell(
             float(slot.get("zoom") or 1.0),
             float(slot.get("offsetX") or 0.0),
             float(slot.get("offsetY") or 0.0),
-            (233, 235, 238),
+            (255, 255, 255),
         )
         board.paste(fitted, (image_box[0], image_box[1]))
     else:
+        # Keep empty cells neutral white; the prompt carries the content manifest.
+        role = str(cell.get("role", ""))
         draw.rounded_rectangle(
             image_box,
             radius=max(3, int(min(image_w, image_h) * 0.025)),
-            fill=(232, 234, 237),
+            fill=(250, 251, 252),
             outline=(216, 219, 224),
             width=max(1, int(min(width, height) / 1400)),
         )
-        label = str(slot.get("label") or "参考画格")
-        _draw_text(
-            draw,
-            (image_box[0] + image_w // 2, image_box[1] + image_h // 2),
-            label,
-            size=max(14, int(min(image_w, image_h) * 0.08)),
-            fill=(132, 137, 145),
-            bold=True,
-            anchor="mm",
-        )
+        _draw_placeholder_icon(draw, image_box, role, image_w, image_h)
+        if show_labels:
+            label = str(slot.get("label") or "参考画格")
+            _draw_text(
+                draw,
+                (image_box[0] + image_w // 2, image_box[1] + image_h - max(18, int(image_h * 0.12))),
+                label,
+                size=max(12, int(min(image_w, image_h) * 0.06)),
+                fill=(132, 137, 145),
+                bold=True,
+                anchor="mm",
+            )
 
     if show_labels:
         caption_h = max(22, int(h * 0.075))
@@ -258,7 +325,7 @@ def render_layout(state: dict[str, Any], template: dict[str, Any]) -> Image.Imag
     for index, cell in enumerate(template.get("cells", [])):
         slot = slots[index] if index < len(slots) and isinstance(slots[index], dict) else {}
         if slot and not slot.get("enabled", True):
-            slot = {}
+            continue
         _draw_cell(
             board,
             draw,

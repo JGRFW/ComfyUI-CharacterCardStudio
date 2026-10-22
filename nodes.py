@@ -19,6 +19,7 @@ from .asset_composer import compose_role_card
 from comfy_extras.nodes_qwen import TextEncodeQwenImage21
 from .splitter import recompose_card, report_json
 from .templates import (
+    CHARACTER_TEMPLATE_OPTIONS,
     FIVE_TEMPLATE_OPTIONS,
     DEFAULT_TEMPLATE_OPTION,
     DEFAULT_NEGATIVE,
@@ -36,7 +37,7 @@ class CharacterCardStudio:
     FUNCTION = "build"
     RETURN_TYPES = ("STRING", "STRING", "IMAGE", "IMAGE", "STRING", "INT", "INT")
     RETURN_NAMES = ("提示词", "负面提示词", "排版参考图", "身份参考图", "卡版JSON", "宽度", "高度")
-    DESCRIPTION = "可视化角色卡排版、参考图复用、画格重排与千问 Image 2.1 提示词编译。"
+    DESCRIPTION = "可视化角色/场景卡排版、参考图复用、画格重排与千问 Image 2.1 提示词编译。"
 
     @classmethod
     def INPUT_TYPES(cls) -> dict[str, Any]:
@@ -200,9 +201,9 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "AICG3D_CharacterCardStudio": "角色卡工作台 · Qwen Image 2.1",
-    "AICG3D_CharacterCardOneClick": "一键角色卡提示词 · Qwen Image 2.1",
-    "AICG3D_CharacterSheetSplitter": "角色卡自动切片 · 无需设置",
+    "AICG3D_CharacterCardStudio": "角色/场景卡工作台 · Qwen Image 2.1",
+    "AICG3D_CharacterCardOneClick": "一键角色/场景卡提示词 · Qwen Image 2.1",
+    "AICG3D_CharacterSheetSplitter": "角色/场景卡自动切片 · 无需设置",
 }
 
 
@@ -217,7 +218,7 @@ class CharacterCardAssetPrompt:
     def INPUT_TYPES(cls) -> dict[str, Any]:
         return {
             "required": {
-                "template": (TEMPLATE_OPTIONS, {"default": DEFAULT_TEMPLATE_OPTION}),
+                "template": (CHARACTER_TEMPLATE_OPTIONS, {"default": DEFAULT_TEMPLATE_OPTION}),
                 "character_prompt": ("STRING", {"default": "原创角色，写实电影级半写实3D风格，五官清晰，服装与配饰设计完整。", "multiline": True}),
                 "title": ("STRING", {"default": "未命名角色"}),
                 "style": ("STRING", {"default": "电影级角色设定，干净背景，柔和棚拍光，专业角色资产"}),

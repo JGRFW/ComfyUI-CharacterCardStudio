@@ -16,7 +16,7 @@ URL = os.environ.get("CCS_TEST_URL", "http://127.0.0.1:8199")
 
 
 def main() -> None:
-    workflow = json.loads(WORKFLOW.read_text(encoding="utf-8"))
+    workflow = json.loads(WORKFLOW.read_text(encoding="utf-8-sig"))
     errors: list[str] = []
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
@@ -50,8 +50,8 @@ def main() -> None:
             }"""
         )
         page.wait_for_timeout(500)
-        (ROOT / "docs").mkdir(exist_ok=True)
-        page.screenshot(path=str(ROOT / "docs" / "oneclick_preview.png"), full_page=False)
+        (ROOT / "_ui_test").mkdir(exist_ok=True)
+        page.screenshot(path=str(ROOT / "_ui_test" / "workflow_preview.png"), full_page=False)
         print(json.dumps(loaded, ensure_ascii=False))
         browser.close()
 

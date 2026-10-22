@@ -7,7 +7,7 @@ from .nodes import NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS
 from .templates import get_templates_payload
 
 WEB_DIRECTORY = "./web"
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 try:
     from aiohttp import web

@@ -63,7 +63,7 @@ def main() -> None:
 
         page.set_input_files(".ccs-root input[type=file]", IMAGE)
         page.wait_for_timeout(5000)
-        page.select_option(".ccs-topbar select", "character_profile_12")
+        page.select_option(".ccs-topbar select", "scene_six_view")
         page.wait_for_timeout(1200)
         before_drag = page.locator(".ccs-cell-caption").nth(0).inner_text()
         page.locator(".ccs-cell").nth(0).drag_to(page.locator(".ccs-cell").nth(2))

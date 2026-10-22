@@ -10,130 +10,21 @@ const SLOT_MIME = "application/x-character-card-slot";
 const IMAGE_MIME = "application/x-character-card-image";
 
 const FALLBACK_TEMPLATES = [
-    {
-        id: "expr_body_8",
-        name: "表情4格+全身4格",
-        width: 1920,
-        height: 1200,
-        defaults: {
-            title: "未命名角色",
-            subtitle: "多视图设定",
-            style: "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
-            background: "#ffffff",
-            accent: "#d86b73",
-        },
-        cells: [
-            { id: "head_neutral", label: "平静", role: "expression", prompt: "头肩特写，中性平静，嘴唇闭合，正视镜头。", x: 0.03, y: 0.03, w: 0.225, h: 0.43 },
-            { id: "head_happy", label: "开心大笑", role: "expression", prompt: "头肩特写，开心大笑，张嘴露齿，眼睛弯起。", x: 0.268, y: 0.03, w: 0.225, h: 0.43 },
-            { id: "head_serious", label: "认真", role: "expression", prompt: "头肩特写，认真严肃，眉头微蹙，直视镜头。", x: 0.505, y: 0.03, w: 0.225, h: 0.43 },
-            { id: "head_angry", label: "生气", role: "expression", prompt: "头肩特写，明显生气，皱眉瞪眼，嘴角下撇。", x: 0.743, y: 0.03, w: 0.225, h: 0.43 },
-            { id: "body_front", label: "正面全身", role: "turnaround", prompt: "完整正面全身，正视镜头，双臂自然下垂，头顶到鞋底。", x: 0.03, y: 0.52, w: 0.225, h: 0.45 },
-            { id: "body_profile", label: "左侧面全身", role: "turnaround", prompt: "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", x: 0.268, y: 0.52, w: 0.225, h: 0.45 },
-            { id: "body_profile2", label: "右侧面全身", role: "turnaround", prompt: "纯侧面全身，人物面朝画面正左方，只能看到右半边脸和右耳，与左侧面互为镜像，头顶到鞋底。", x: 0.505, y: 0.52, w: 0.225, h: 0.45, mirror: true },
-            { id: "body_back", label: "背面全身", role: "turnaround", prompt: "完整180度背面全身，只能看到后脑和后背，头顶到鞋底。", x: 0.743, y: 0.52, w: 0.225, h: 0.45 },
-        ],
-    },
-    {
-        id: "head_body_6",
-        name: "头部3格+全身3格",
-        width: 1920,
-        height: 1280,
-        defaults: {
-            title: "未命名角色",
-            subtitle: "三视图设定",
-            style: "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
-            background: "#ffffff",
-            accent: "#6b8dd8",
-        },
-        cells: [
-            { id: "head_front", label: "正面头像", role: "portrait", prompt: "头肩正面特写，正视镜头。", x: 0.03, y: 0.03, w: 0.303, h: 0.43 },
-            { id: "head_side", label: "侧面头像", role: "portrait", prompt: "头肩90度侧面特写，人物面朝画面正右方，只能看到左半边脸和左耳。", x: 0.345, y: 0.03, w: 0.303, h: 0.43 },
-            { id: "head_back", label: "后脑头像", role: "portrait", prompt: "头肩背面特写，展示后脑发型。", x: 0.66, y: 0.03, w: 0.303, h: 0.43 },
-            { id: "body_front", label: "正面全身", role: "turnaround", prompt: "完整正面全身，正视镜头，头顶到鞋底。", x: 0.03, y: 0.52, w: 0.303, h: 0.45 },
-            { id: "body_side", label: "侧面全身", role: "turnaround", prompt: "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", x: 0.345, y: 0.52, w: 0.303, h: 0.45 },
-            { id: "body_back", label: "背面全身", role: "turnaround", prompt: "完整180度背面全身，头顶到鞋底。", x: 0.66, y: 0.52, w: 0.303, h: 0.45 },
-        ],
-    },
-    {
-        id: "bighead_body3",
-        name: "大头像+3全身",
-        width: 1920,
-        height: 1200,
-        defaults: {
-            title: "未命名角色",
-            subtitle: "角色设定",
-            style: "统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级",
-            background: "#ffffff",
-            accent: "#d86b73",
-        },
-        cells: [
-            { id: "head_big", label: "大头像", role: "portrait", prompt: "超大头肩正面特写，五官清晰，正视镜头。", x: 0.03, y: 0.03, w: 0.40, h: 0.94 },
-            { id: "body_front", label: "正面全身", role: "turnaround", prompt: "完整正面全身，头顶到鞋底。", x: 0.46, y: 0.12, w: 0.16, h: 0.78 },
-            { id: "body_side", label: "侧面全身", role: "turnaround", prompt: "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", x: 0.635, y: 0.12, w: 0.16, h: 0.78 },
-            { id: "body_back", label: "背面全身", role: "turnaround", prompt: "完整180度背面全身，头顶到鞋底。", x: 0.81, y: 0.12, w: 0.16, h: 0.78 },
-        ],
-    },
-    {
-        id: "xianxia_ref",
-        name: "修仙女主全套",
-        width: 2200,
-        height: 1300,
-        defaults: {
-            title: "修仙女主",
-            subtitle: "人物多视图设定",
-            style: "古风修仙角色资产，纯白棚拍背景，柔和棚拍光，写实精致",
-            background: "#ffffff",
-            accent: "#7a9bd8",
-        },
-        cells: [
-            { id: "body_front", label: "正面全身", role: "turnaround", prompt: "完整正面全身，正视镜头，头顶到鞋底。", x: 0.02, y: 0.03, w: 0.125, h: 0.38 },
-            { id: "body_right", label: "右侧面全身", role: "turnaround", prompt: "纯侧面全身，人物面朝画面正左方，只能看到右半边脸和右耳，头顶到鞋底。", x: 0.155, y: 0.03, w: 0.125, h: 0.38, mirror: true },
-            { id: "body_back", label: "背面全身", role: "turnaround", prompt: "完整180度背面全身，只能看到后脑和后背，头顶到鞋底。", x: 0.29, y: 0.03, w: 0.125, h: 0.38 },
-            { id: "body_left", label: "左侧面全身", role: "turnaround", prompt: "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，与右侧面互为镜像，头顶到鞋底。", x: 0.425, y: 0.03, w: 0.125, h: 0.38 },
-            { id: "head_1", label: "正面特写", role: "portrait", prompt: "头肩正面特写，正视镜头，面无表情。", x: 0.02, y: 0.44, w: 0.15, h: 0.22 },
-            { id: "head_2", label: "侧面特写", role: "portrait", prompt: "头肩90度侧面特写，脸朝右，展示侧脸轮廓。", x: 0.18, y: 0.44, w: 0.15, h: 0.22 },
-            { id: "head_3", label: "斜侧特写", role: "portrait", prompt: "头肩四分之三斜侧特写，眼神看向镜头。", x: 0.34, y: 0.44, w: 0.15, h: 0.22 },
-            { id: "ex_1", label: "温柔微笑", role: "expression", prompt: "头肩特写，温柔微笑，嘴角微上扬不露齿，眼神柔和。", x: 0.58, y: 0.03, w: 0.12, h: 0.19 },
-            { id: "ex_2", label: "惊讶张嘴", role: "expression", prompt: "头肩特写，惊讶张嘴，眼睛圆睁，嘴呈O型。", x: 0.71, y: 0.03, w: 0.12, h: 0.19 },
-            { id: "ex_3", label: "闭眼沉思", role: "expression", prompt: "头肩特写，闭眼沉思，眼帘低垂，嘴唇微抿。", x: 0.84, y: 0.03, w: 0.12, h: 0.19 },
-            { id: "ex_4", label: "蹙眉清冷", role: "expression", prompt: "头肩特写，蹙眉清冷，眉头微皱，眼神冷峻直视。", x: 0.58, y: 0.24, w: 0.12, h: 0.19 },
-            { id: "de_1", label: "眼部细节", role: "detail", prompt: "眼睛微距特写，展示瞳色和睫毛。", x: 0.71, y: 0.24, w: 0.12, h: 0.19 },
-            { id: "de_2", label: "发饰细节", role: "detail", prompt: "发饰或耳饰微距特写。", x: 0.84, y: 0.24, w: 0.12, h: 0.19 },
-            { id: "de_3", label: "面料细节", role: "detail", prompt: "服饰面料刺绣微距特写。", x: 0.58, y: 0.45, w: 0.38, h: 0.19 },
-        ],
-    },
-    {
-        id: "school_ref",
-        name: "校服少女设定卡",
-        width: 2000,
-        height: 1400,
-        defaults: {
-            title: "校服少女",
-            subtitle: "角色设定",
-            style: "学院风角色资产，纯白棚拍背景，柔和棚拍光",
-            background: "#ffffff",
-            accent: "#e08a9a",
-        },
-        cells: [
-            { id: "hero", label: "主立绘", role: "hero", prompt: "完整全身主立绘，自然站姿，头顶到鞋底。", x: 0.03, y: 0.08, w: 0.30, h: 0.86 },
-            { id: "body_front", label: "正面", role: "turnaround", prompt: "完整正面全身，正视镜头，头顶到鞋底。", x: 0.36, y: 0.08, w: 0.20, h: 0.40 },
-            { id: "body_side", label: "侧面", role: "turnaround", prompt: "纯侧面全身，人物面朝画面正右方，只能看到左半边脸和左耳，头顶到鞋底。", x: 0.58, y: 0.08, w: 0.20, h: 0.40 },
-            { id: "body_back", label: "背面", role: "turnaround", prompt: "完整180度背面全身，头顶到鞋底。", x: 0.80, y: 0.08, w: 0.17, h: 0.40 },
-            { id: "ex_1", label: "甜美微笑", role: "expression", prompt: "头肩特写，张嘴露齿甜笑。", x: 0.36, y: 0.52, w: 0.20, h: 0.20 },
-            { id: "ex_2", label: "低头沉思", role: "expression", prompt: "头肩特写，低头眼帘下垂，不看镜头。", x: 0.58, y: 0.52, w: 0.20, h: 0.20 },
-            { id: "ex_3", label: "惊讶张嘴", role: "expression", prompt: "头肩特写，张嘴惊讶，眼睛睁大。", x: 0.80, y: 0.52, w: 0.17, h: 0.20 },
-            { id: "de_1", label: "服装细节", role: "detail", prompt: "衬衫或马甲面料特写。", x: 0.36, y: 0.75, w: 0.20, h: 0.20 },
-            { id: "de_2", label: "配饰细节", role: "detail", prompt: "领结或发饰特写。", x: 0.58, y: 0.75, w: 0.20, h: 0.20 },
-            { id: "de_3", label: "鞋履细节", role: "detail", prompt: "乐福鞋特写。", x: 0.80, y: 0.75, w: 0.17, h: 0.20 },
-        ],
-    },
+    {"id":"bighead_body3","name":"四格·偏立","description":"左侧一个大的正面头肩肖像，右侧并列正面/侧面/背面三个完整全身。","layout_prompt":"左右两栏：左栏只有1个大头肩肖像；右栏只有3个等宽全身竖格，依次为正面、侧面、背面。总共4格。","width":1920,"height":1200,"defaults":{"title":"未命名角色","subtitle":"角色设定","style":"统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级","background":"#ffffff","accent":"#d86b73"},"cells":[{"id":"head_big","label":"正面大头像","role":"portrait","prompt":"正面头肩肖像，头部到肩部完整入镜，五官和发饰清晰，正视镜头，画面里只有一个人。","x":0.03,"y":0.03,"w":0.4,"h":0.94,"mirror":false},{"id":"body_front","label":"正面全身","role":"turnaround","prompt":"正面完整全身站姿，双臂自然下垂，从头顶到鞋底完整不裁切，画面里只有一个人。","x":0.46,"y":0.12,"w":0.16,"h":0.78,"mirror":false},{"id":"body_side","label":"侧面全身","role":"turnaround","prompt":"严格90度左侧面完整全身，人物朝画面右侧，只能看到左半边脸和左耳，从头顶到鞋底完整不裁切。","x":0.635,"y":0.12,"w":0.16,"h":0.78,"mirror":false},{"id":"body_back","label":"背面全身","role":"turnaround","prompt":"严格180度背面完整全身，只能看到后脑和后背，从头顶到鞋底完整不裁切。","x":0.81,"y":0.12,"w":0.16,"h":0.78,"mirror":false}]},
+    {"id":"dualfour_ref","name":"四格·双帧","description":"等分2×2：上排正面和四分之三头肩，下排正面和背面全身。","layout_prompt":"等分2行×2列：上排左格正面头肩、右格四分之三头肩；下排左格正面全身、右格背面全身。总共4格，不能增加第三排。","width":1920,"height":1200,"defaults":{"title":"未命名角色","subtitle":"双视设定","style":"统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级","background":"#ffffff","accent":"#6b8dd8"},"cells":[{"id":"head_front","label":"正面头像","role":"portrait","prompt":"正面头肩特写，头部到肩部完整入镜，正视镜头，不出现第二个人。","x":0.03,"y":0.03,"w":0.46,"h":0.43,"mirror":false},{"id":"head_three_quarter","label":"四分之三头像","role":"portrait","prompt":"四分之三侧脸头肩特写，脸朝画面右前方，能同时看到两侧脸颊轮廓，眼神看向镜头。","x":0.51,"y":0.03,"w":0.46,"h":0.43,"mirror":false},{"id":"body_front","label":"正面全身","role":"turnaround","prompt":"正面完整全身站姿，正视镜头，从头顶到鞋底完整不裁切，画面里只有一个人。","x":0.03,"y":0.52,"w":0.46,"h":0.45,"mirror":false},{"id":"body_back","label":"背面全身","role":"turnaround","prompt":"严格180度背面完整全身，只能看到后脑和后背，从头顶到鞋底完整不裁切。","x":0.51,"y":0.52,"w":0.46,"h":0.45,"mirror":false}]},
+    {"id":"fiveref","name":"五格·正反","description":"上排正面和四分之三头肩，下排正面/侧面/背面三个完整全身。","layout_prompt":"两排结构：上排只有2格，都是头肩肖像；下排只有3格，都是完整全身。总共5格。","width":1920,"height":1200,"defaults":{"title":"未命名角色","subtitle":"五视设定","style":"统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级","background":"#ffffff","accent":"#65a89a"},"cells":[{"id":"head_front","label":"正面头像","role":"portrait","prompt":"正面头肩特写，头部到肩部完整入镜，正视镜头。","x":0.03,"y":0.03,"w":0.47,"h":0.43,"mirror":false},{"id":"head_three_quarter","label":"四分之三头像","role":"portrait","prompt":"四分之三侧脸头肩特写，脸朝画面右前方，眼神看向镜头，与正面头像角度明显不同。","x":0.5,"y":0.03,"w":0.47,"h":0.43,"mirror":false},{"id":"body_front","label":"正面全身","role":"turnaround","prompt":"正面完整全身站姿，从头顶到鞋底完整不裁切，画面里只有一个人。","x":0.03,"y":0.52,"w":0.305,"h":0.45,"mirror":false},{"id":"body_side","label":"侧面全身","role":"turnaround","prompt":"严格90度左侧面完整全身，人物朝画面右侧，从头顶到鞋底完整不裁切。","x":0.348,"y":0.52,"w":0.305,"h":0.45,"mirror":false},{"id":"body_back","label":"背面全身","role":"turnaround","prompt":"严格180度背面完整全身，只能看到后脑和后背，从头顶到鞋底完整不裁切。","x":0.665,"y":0.52,"w":0.305,"h":0.45,"mirror":false}]},
+    {"id":"head_body_6","name":"六格·三视图","description":"上排正面/侧面/后脑三个头肩，下排正面/侧面/背面三个完整全身。","layout_prompt":"等分2排×3列：上排3格全是头肩肖像，下排3格全是完整全身。总共6格，不能生成九宫格。","width":1920,"height":1280,"defaults":{"title":"未命名角色","subtitle":"三视图设定","style":"统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级","background":"#ffffff","accent":"#6b8dd8"},"cells":[{"id":"head_front","label":"正面头像","role":"portrait","prompt":"正面头肩特写，头部到肩部完整入镜，正视镜头。","x":0.03,"y":0.03,"w":0.303,"h":0.43,"mirror":false},{"id":"head_side","label":"侧面头像","role":"portrait","prompt":"严格90度侧面头肩特写，人物朝画面右侧，只能看到左半边脸和左耳。","x":0.345,"y":0.03,"w":0.303,"h":0.43,"mirror":false},{"id":"head_back","label":"后脑头像","role":"portrait","prompt":"背面头肩特写，只能看到后脑和发型，看不到脸。","x":0.66,"y":0.03,"w":0.303,"h":0.43,"mirror":false},{"id":"body_front","label":"正面全身","role":"turnaround","prompt":"正面完整全身站姿，从头顶到鞋底完整不裁切，画面里只有一个人。","x":0.03,"y":0.52,"w":0.303,"h":0.45,"mirror":false},{"id":"body_side","label":"侧面全身","role":"turnaround","prompt":"严格90度左侧面完整全身，人物朝画面右侧，从头顶到鞋底完整不裁切。","x":0.345,"y":0.52,"w":0.303,"h":0.45,"mirror":false},{"id":"body_back","label":"背面全身","role":"turnaround","prompt":"严格180度背面完整全身，只能看到后脑和后背，从头顶到鞋底完整不裁切。","x":0.66,"y":0.52,"w":0.303,"h":0.45,"mirror":false}]},
+    {"id":"sixtilt_ref","name":"六格·主视觉","description":"左侧大幅主立绘；右侧两排双格，底部横条面料细节。","layout_prompt":"非等分布局：左侧1个大幅主立绘；右侧上排2格（正面头像、微笑），中排2格（侧面全身、动作全身），右下1个横向面料细节条。总共6格。","width":1920,"height":1280,"defaults":{"title":"未命名角色","subtitle":"主视觉设定","style":"统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级","background":"#ffffff","accent":"#9b7dd8"},"cells":[{"id":"hero","label":"主立绘","role":"hero","prompt":"正面完整全身主立绘，自然站姿，从头顶到鞋底完整入镜，画面里只有一个人。","x":0.03,"y":0.08,"w":0.39,"h":0.84,"mirror":false},{"id":"head_front","label":"正面头像","role":"portrait","prompt":"正面头肩特写，头部到肩部完整入镜，正视镜头。","x":0.45,"y":0.08,"w":0.26,"h":0.25,"mirror":false},{"id":"ex_smile","label":"微笑表情","role":"expression","prompt":"头肩微笑特写，嘴角上扬、眼睛微弯，和正面冷静头像表情明显不同。","x":0.735,"y":0.08,"w":0.235,"h":0.25,"mirror":false},{"id":"body_side","label":"侧面全身","role":"turnaround","prompt":"严格90度左侧面完整全身，人物朝画面右侧，从头顶到鞋底完整不裁切。","x":0.45,"y":0.36,"w":0.26,"h":0.27,"mirror":false},{"id":"action_pose","label":"动作全身","role":"turnaround","prompt":"动态站姿完整全身，手臂动作与主立绘明显不同，从头顶到鞋底完整不裁切。","x":0.735,"y":0.36,"w":0.235,"h":0.27,"mirror":false},{"id":"de_fabric","label":"面料细节","role":"detail","prompt":"横向服饰面料与刺绣微距，只展示纹理、褶皱和金线，不出现人物脸部或全身。","x":0.45,"y":0.66,"w":0.52,"h":0.26,"mirror":false}]},
+    {"id":"expr_body_8","name":"八格·表情谱","description":"上排4个不同表情头肩，下排正面/侧面/背面/动作四个完整全身。","layout_prompt":"等分2排×4列：上排4格全部是不同表情的头肩；下排4格全部是完整全身。总共8格。","width":1920,"height":1200,"defaults":{"title":"未命名角色","subtitle":"多视图设定","style":"统一角色资产，纯白棚拍背景，柔和棚拍光，写实电影级","background":"#ffffff","accent":"#d86b73"},"cells":[{"id":"head_neutral","label":"平静","role":"expression","prompt":"头肩特写，中性平静，嘴唇闭合，目光平视，面部放松。","x":0.03,"y":0.03,"w":0.225,"h":0.43,"mirror":false},{"id":"head_happy","label":"开心大笑","role":"expression","prompt":"头肩特写，张嘴露齿开心大笑，眼睛弯成月牙，和第一格表情明显不同。","x":0.268,"y":0.03,"w":0.225,"h":0.43,"mirror":false},{"id":"head_serious","label":"认真","role":"expression","prompt":"头肩特写，嘴唇紧抿、眉头微蹙，严肃直视镜头。","x":0.505,"y":0.03,"w":0.225,"h":0.43,"mirror":false},{"id":"head_surprised","label":"惊讶","role":"expression","prompt":"头肩特写，眼睛圆睁、眉毛抬高、嘴巴微张呈惊讶表情。","x":0.743,"y":0.03,"w":0.225,"h":0.43,"mirror":false},{"id":"body_front","label":"正面全身","role":"turnaround","prompt":"正面完整全身站姿，双臂自然下垂，从头顶到鞋底完整不裁切。","x":0.03,"y":0.52,"w":0.225,"h":0.45,"mirror":false},{"id":"body_profile","label":"左侧面全身","role":"turnaround","prompt":"严格90度左侧面完整全身，人物朝画面右侧，从头顶到鞋底完整不裁切。","x":0.268,"y":0.52,"w":0.225,"h":0.45,"mirror":false},{"id":"body_back","label":"背面全身","role":"turnaround","prompt":"严格180度背面完整全身，只能看到后脑和后背，从头顶到鞋底完整不裁切。","x":0.505,"y":0.52,"w":0.225,"h":0.45,"mirror":false},{"id":"body_action","label":"动作全身","role":"turnaround","prompt":"自然行走动作完整全身，步态与前三格站姿不同，从头顶到鞋底完整不裁切。","x":0.743,"y":0.52,"w":0.225,"h":0.45,"mirror":false}]},
+    {"id":"school_ref","name":"十格·设定集","description":"左侧主立绘；右侧上排三视图、中排三表情、下排三细节。","layout_prompt":"左右两栏：左栏只有1个大幅主立绘；右栏3列×3行，依次为上排3格全身、中排3格表情头肩、下排3格局部细节。总共10格。","width":2000,"height":1400,"defaults":{"title":"未命名角色","subtitle":"角色设定集","style":"统一角色资产，纯白棚拍背景，柔和棚拍光","background":"#ffffff","accent":"#e08a9a"},"cells":[{"id":"hero","label":"主立绘","role":"hero","prompt":"单个人物正面完整全身主立绘，自然站姿，从头顶到鞋底完整入镜，画面里不能出现第二个人或拼贴。","x":0.03,"y":0.08,"w":0.3,"h":0.86,"mirror":false},{"id":"body_front","label":"正面全身","role":"turnaround","prompt":"正面完整全身站姿，从头顶到鞋底完整不裁切。","x":0.36,"y":0.08,"w":0.2,"h":0.4,"mirror":false},{"id":"body_side","label":"侧面全身","role":"turnaround","prompt":"严格90度左侧面完整全身，人物朝画面右侧，从头顶到鞋底完整不裁切。","x":0.58,"y":0.08,"w":0.2,"h":0.4,"mirror":false},{"id":"body_back","label":"背面全身","role":"turnaround","prompt":"严格180度背面完整全身，只能看到后脑和后背，从头顶到鞋底完整不裁切。","x":0.8,"y":0.08,"w":0.17,"h":0.4,"mirror":false},{"id":"ex_1","label":"甜美微笑","role":"expression","prompt":"头肩特写，张嘴露齿甜笑，眼睛弯起，表情明亮。","x":0.36,"y":0.52,"w":0.2,"h":0.2,"mirror":false},{"id":"ex_2","label":"低头沉思","role":"expression","prompt":"头肩特写，低头垂眼，不看镜头，表情安静克制。","x":0.58,"y":0.52,"w":0.2,"h":0.2,"mirror":false},{"id":"ex_3","label":"惊讶张嘴","role":"expression","prompt":"头肩特写，眼睛睁大、眉毛抬高、嘴巴张开，表情惊讶。","x":0.8,"y":0.52,"w":0.17,"h":0.2,"mirror":false},{"id":"de_1","label":"服装细节","role":"detail","prompt":"制服领口、徽章和衣料纹理的局部微距，不出现完整人物。","x":0.36,"y":0.75,"w":0.2,"h":0.2,"mirror":false},{"id":"de_2","label":"配饰细节","role":"detail","prompt":"领结或发饰的局部微距，不出现人物脸部。","x":0.58,"y":0.75,"w":0.2,"h":0.2,"mirror":false},{"id":"de_3","label":"鞋履细节","role":"detail","prompt":"鞋履结构和材质的局部微距，不出现完整人物。","x":0.8,"y":0.75,"w":0.17,"h":0.2,"mirror":false}]},
+    {"id":"xianxia_ref","name":"十四格·全图鉴","description":"左侧四全身+三头像，右侧四表情+三细节，最后一行横条面料。","layout_prompt":"左右两栏：左栏上排4个全身，下排3个头像；右栏上排3个表情，中排3格（1个表情+2个细节），底部1个横条面料细节。总共14格，不能多出第4行。","width":2200,"height":1300,"defaults":{"title":"未命名角色","subtitle":"完整图鉴","style":"统一角色资产，纯白棚拍背景，柔和棚拍光，写实精致","background":"#ffffff","accent":"#7a9bd8"},"cells":[{"id":"body_front","label":"正面全身","role":"turnaround","prompt":"正面完整全身站姿，从头顶到鞋底完整不裁切，画面里只有一个人。","x":0.02,"y":0.03,"w":0.125,"h":0.42,"mirror":false},{"id":"body_right","label":"右侧面全身","role":"turnaround","prompt":"严格90度右侧面完整全身，人物朝画面左侧，只能看到右半边脸和右耳，从头顶到鞋底完整不裁切。","x":0.155,"y":0.03,"w":0.125,"h":0.42,"mirror":false},{"id":"body_back","label":"背面全身","role":"turnaround","prompt":"严格180度背面完整全身，只能看到后脑和后背，从头顶到鞋底完整不裁切。","x":0.29,"y":0.03,"w":0.125,"h":0.42,"mirror":false},{"id":"body_left","label":"左侧面全身","role":"turnaround","prompt":"严格90度左侧面完整全身，人物朝画面右侧，只能看到左半边脸和左耳，与右侧面方向相反。","x":0.425,"y":0.03,"w":0.125,"h":0.42,"mirror":false},{"id":"head_1","label":"正面头像","role":"portrait","prompt":"正面头肩肖像，头部到肩部完整入镜，平静正视镜头。","x":0.02,"y":0.47,"w":0.15,"h":0.43,"mirror":false},{"id":"head_2","label":"侧面头像","role":"portrait","prompt":"严格90度侧面头肩肖像，人物朝画面右侧，展示侧脸轮廓。","x":0.18,"y":0.47,"w":0.15,"h":0.43,"mirror":false},{"id":"head_3","label":"斜侧头像","role":"portrait","prompt":"四分之三斜侧头肩肖像，脸朝画面右前方，眼神看向镜头。","x":0.34,"y":0.47,"w":0.15,"h":0.43,"mirror":false},{"id":"ex_1","label":"温柔微笑","role":"expression","prompt":"头肩特写，闭唇温柔微笑，嘴角微扬，眼神柔和。","x":0.58,"y":0.03,"w":0.12,"h":0.25,"mirror":false},{"id":"ex_2","label":"惊讶张嘴","role":"expression","prompt":"头肩特写，眼睛圆睁、眉毛抬起、嘴巴微张，表情惊讶。","x":0.71,"y":0.03,"w":0.12,"h":0.25,"mirror":false},{"id":"ex_3","label":"闭眼沉思","role":"expression","prompt":"头肩特写，双眼闭合，头部微低，嘴唇轻抿，表情安静。","x":0.84,"y":0.03,"w":0.12,"h":0.25,"mirror":false},{"id":"ex_4","label":"蹙眉清冷","role":"expression","prompt":"头肩特写，眉头微蹙，眼神冷峻直视，和微笑表情明显不同。","x":0.58,"y":0.3,"w":0.12,"h":0.25,"mirror":false},{"id":"de_1","label":"眼部细节","role":"detail","prompt":"单只眼睛的微距特写，展示瞳色、虹膜纹理和睫毛，不出现整张脸。","x":0.71,"y":0.3,"w":0.12,"h":0.25,"mirror":false},{"id":"de_2","label":"配饰细节","role":"detail","prompt":"项链、耳环或发饰的微距特写，不出现人物脸部。","x":0.84,"y":0.3,"w":0.12,"h":0.25,"mirror":false},{"id":"de_3","label":"面料细节","role":"detail","prompt":"横向服饰面料与刺绣微距，只展示布料纹理、褶皱和图案，不出现人物。","x":0.58,"y":0.57,"w":0.38,"h":0.37,"mirror":false}]},
+    {"id":"scene_six_view","kind":"scene","name":"场景·六面图","description":"上传任意一张场景图，生成正面参考、左向、右向、反向、俯视和环境细节共六个视图。","layout_prompt":"等分2排×3列：上排依次为正面参考、左向视角、右向视角；下排依次为反向视角、俯视视角、环境细节。总共6格。","width":1920,"height":1280,"defaults":{"title":"未命名场景","subtitle":"场景多视角设定","style":"写实场景概念设计，统一空间结构、材质、透视和光照","background":"#ffffff","accent":"#4f8a8b"},"cells":[{"id":"scene_front","label":"正面参考","role":"scene_anchor","prompt":"保留上传的场景图作为唯一空间锚点，不重绘、不改变构图；若没有上传参考图，则生成一张场景正面主视图。场景为主，不新增人物或动物。","x":0.03,"y":0.03,"w":0.303,"h":0.45,"mirror":false},{"id":"scene_left","label":"左向视角","role":"scene_view","prompt":"从正面相机位置向左转约90度，展示同一场景的左侧区域；延续地形、建筑、道路、植被、主要物件、材质和光照。场景为主，不新增人物或动物。","x":0.345,"y":0.03,"w":0.303,"h":0.45,"mirror":false},{"id":"scene_right","label":"右向视角","role":"scene_view","prompt":"从正面相机位置向右转约90度，展示同一场景的右侧区域；延续地形、建筑、道路、植被、主要物件、材质和光照。场景为主，不新增人物或动物。","x":0.66,"y":0.03,"w":0.303,"h":0.45,"mirror":false},{"id":"scene_back","label":"反向视角","role":"scene_view","prompt":"从正面相机位置转身约180度，展示相机背后的反方向场景；保持同一空间的结构、尺度、主要物件位置和光照方向。场景为主，不新增人物或动物。","x":0.03,"y":0.52,"w":0.303,"h":0.45,"mirror":false},{"id":"scene_top","label":"俯视视角","role":"scene_view","prompt":"升高相机并向下俯拍，展示同一场景的地形、建筑、道路、植被或主要物件的位置关系；保持空间布局连续。场景为主，不新增人物或动物。","x":0.345,"y":0.52,"w":0.303,"h":0.45,"mirror":false},{"id":"scene_detail","label":"环境细节","role":"scene_detail","prompt":"提取该场景中最有辨识度的材质、纹理、植被、建筑构件或装饰细节，做一张局部微距；颜色和材质必须与环境一致。场景为主，不新增人物或动物。","x":0.66,"y":0.52,"w":0.303,"h":0.45,"mirror":false}]}
 ];
 
 const PAYLOAD_FALLBACK = {
-    version: 1,
+    version: 3,
     templates: FALLBACK_TEMPLATES,
-    defaultNegative:
-        "低质量，模糊，畸形，多余肢体，错误手指，身份漂移，脸部崩坏，性别漂移，服装结构错误，配饰缺失，面板布局混乱，重复人物，文字乱码，水印，logo",
+    defaultNegative: "低质量，模糊，畸形，多余肢体，错误手指，身份漂移，脸部崩坏，性别漂移，服装结构错误，配饰缺失，面板布局混乱，重复人物，复制同一张脸，画格数量错误，多出画格，缺少画格，画格合并，九宫格误生成，文字乱码，水印，logo，头部裁切，脚部裁切，鞋履裁切，半身替代全身，断脚，切头，灰色背景，深灰背景，暗背景，渐变背景，纹理背景，阴影背景",
 };
 
 let payloadPromise = null;
@@ -283,7 +174,7 @@ function slotFromCell(cell, index) {
         prompt: cell.prompt || "",
         image: "",
         subfolder: "",
-        fit: ["turnaround", "hero"].includes(cell.role) ? "contain" : "cover",
+        fit: ["turnaround", "hero", "scene_anchor"].includes(cell.role) ? "contain" : "cover",
         zoom: 1,
         offsetX: 0,
         offsetY: 0,
@@ -294,16 +185,20 @@ function slotFromCell(cell, index) {
 
 function defaultState(template, payload, previous = null) {
     const defaults = template.defaults || {};
+    const previousTemplate = payload.templates.find((item) => item.id === previous?.templateId);
+    const kindChanged = Boolean(previousTemplate && previousTemplate.kind !== template.kind);
+    const leavingScene = kindChanged && previousTemplate?.kind === "scene";
+    const genericTitle = ["", "未命名角色", "未命名场景"].includes(previous?.title || "");
     const state = {
-        version: 1,
+        version: 2,
         templateId: template.id,
-        title: previous?.title || defaults.title || "未命名角色",
-        subtitle: previous?.subtitle || defaults.subtitle || template.name || "角色设定卡",
-        identity: previous?.identity || "",
-        appearance: previous?.appearance || "",
-        outfit: previous?.outfit || "",
-        palette: previous?.palette || "",
-        style: previous?.style || defaults.style || "",
+        title: kindChanged && genericTitle ? (defaults.title || "未命名主体") : (previous?.title || defaults.title || "未命名主体"),
+        subtitle: kindChanged ? (defaults.subtitle || template.name || "设定卡") : (previous?.subtitle || defaults.subtitle || template.name || "设定卡"),
+        identity: kindChanged ? "" : (previous?.identity || ""),
+        appearance: kindChanged ? "" : (previous?.appearance || ""),
+        outfit: kindChanged ? "" : (previous?.outfit || ""),
+        palette: leavingScene ? "" : (previous?.palette || ""),
+        style: kindChanged ? (defaults.style || "") : (previous?.style || defaults.style || ""),
         negativePrompt: previous?.negativePrompt || payload.defaultNegative,
         background: previous?.background || defaults.background || "#ffffff",
         accent: previous?.accent || defaults.accent || "#d86b73",
@@ -312,20 +207,20 @@ function defaultState(template, payload, previous = null) {
         height: roundDimension(previous?.height || template.height || 1080),
         slots: template.cells.map((cell, index) => {
             const base = slotFromCell(cell, index);
-            const old = previous?.slots?.[index];
+            const old = previous?.slots?.find((slot) => slot?.cellId === cell.id);
             if (!old) return base;
-            const sameRole = old.role === cell.role;
+            // 切模板时：标签和提示词永远用新模板的默认值，只保留图片和视觉微调
             return {
                 ...base,
-                label: sameRole && old.label ? old.label : base.label,
-                prompt: sameRole && old.prompt ? old.prompt : base.prompt,
+                id: old.id || base.id,
                 image: old.image || "",
                 subfolder: old.subfolder || "",
-                fit: old.fit === "contain" ? "contain" : "cover",
+                fit: ["contain", "cover"].includes(old.fit) ? old.fit : base.fit,
                 zoom: clampNumber(old.zoom, 0.5, 3, 1),
                 offsetX: clampNumber(old.offsetX, -1, 1, 0),
                 offsetY: clampNumber(old.offsetY, -1, 1, 0),
                 lockIdentity: old.lockIdentity !== false,
+                enabled: old.enabled !== false,
             };
         }),
         library: Array.isArray(previous?.library) ? clone(previous.library) : [],
@@ -338,6 +233,7 @@ function normaliseState(raw, payload, template) {
     if (!raw || typeof raw !== "object") return base;
     const result = {
         ...base,
+        version: 2,
         title: String(raw.title ?? base.title),
         subtitle: String(raw.subtitle ?? base.subtitle),
         identity: String(raw.identity ?? ""),
@@ -354,16 +250,15 @@ function normaliseState(raw, payload, template) {
     };
     const slots = Array.isArray(raw.slots) ? raw.slots : [];
     result.slots = template.cells.map((cell, index) => {
-        const source = slots[index] && typeof slots[index] === "object" ? slots[index] : {};
+        const indexed = slots[index] && typeof slots[index] === "object" ? slots[index] : {};
+        const source = slots.find((item) => item && typeof item === "object" && item.cellId === cell.id)
+            || (!indexed.cellId ? indexed : {});
         return {
             ...slotFromCell(cell, index),
             id: String(source.id || uid()),
-            label: String(source.label || cell.label || `画格 ${index + 1}`),
-            role: String(source.role || cell.role || "custom"),
-            prompt: String(source.prompt || cell.prompt || ""),
             image: String(source.image || ""),
             subfolder: String(source.subfolder || ""),
-            fit: source.fit === "contain" || (source.fit == null && ["turnaround", "hero"].includes(cell.role)) ? "contain" : "cover",
+            fit: source.fit === "contain" || (source.fit == null && ["turnaround", "hero", "scene_anchor"].includes(cell.role)) ? "contain" : "cover",
             zoom: clampNumber(source.zoom, 0.5, 3, 1),
             offsetX: clampNumber(source.offsetX, -1, 1, 0),
             offsetY: clampNumber(source.offsetY, -1, 1, 0),
@@ -505,6 +400,7 @@ function makeColorField(value, onChange, label = "") {
 
 function buildTemplateMini(template) {
     const mini = el("div", "ccs-template-mini");
+    mini.style.aspectRatio = `${template.width || 16} / ${template.height || 10}`;
     for (const cell of template.cells || []) {
         const block = el("span");
         block.style.left = `${cell.x * 100}%`;
@@ -738,6 +634,9 @@ function buildCellPane(ui) {
         ["portrait", "头像"],
         ["expression", "表情"],
         ["detail", "细节"],
+        ["scene_anchor", "场景正面"],
+        ["scene_view", "场景视角"],
+        ["scene_detail", "场景材质"],
         ["custom", "自定义"],
     ]) {
         const option = document.createElement("option");
@@ -786,6 +685,7 @@ function buildCellPane(ui) {
     moveSection.append(moveGrid);
 
     pane.append(mediaSection, contentSection, cropSection, moveSection);
+
 
     Object.assign(ui, {
         previewImage,
@@ -913,12 +813,12 @@ function buildGlobalPane(ui) {
         commitUi(ui, { board: true, sync: true });
     });
     identitySection.append(
-        makeField("角色名", titleInput),
+        makeField("名称", titleInput),
         makeField("副标题", subtitleInput),
     );
-    const identity = appendGlobalText(ui, identitySection, "身份性格", "identity", 3);
-    const appearance = appendGlobalText(ui, identitySection, "外貌锁定", "appearance", 4);
-    const outfit = appendGlobalText(ui, identitySection, "服装配饰", "outfit", 4);
+    const identity = appendGlobalText(ui, identitySection, "身份 / 场景类型", "identity", 3);
+    const appearance = appendGlobalText(ui, identitySection, "外貌 / 场景结构", "appearance", 4);
+    const outfit = appendGlobalText(ui, identitySection, "服装 / 环境材质", "outfit", 4);
     const palette = appendGlobalText(ui, identitySection, "固定色板", "palette", 2);
 
     const styleSection = el("div", "ccs-section");
@@ -939,7 +839,18 @@ function buildGlobalPane(ui) {
     widthInput.step = "16";
     heightInput.step = "16";
     const dimensionWrap = el("div", "ccs-color-row");
-    dimensionWrap.append(widthInput, heightInput);
+    const swapBtn = el("button", "ccs-swap-btn", "⇄");
+    swapBtn.type = "button";
+    swapBtn.title = "交换宽高（横竖屏切换）";
+    swapBtn.addEventListener("click", () => {
+        const w = ui.state.width;
+        ui.state.width = ui.state.height;
+        ui.state.height = w;
+        widthInput.value = String(ui.state.width);
+        heightInput.value = String(ui.state.height);
+        commitUi(ui, { board: true, sync: true, header: true, inspector: true });
+    });
+    dimensionWrap.append(widthInput, swapBtn, heightInput);
     const writeDimension = () => {
         ui.state.width = roundDimension(widthInput.value);
         ui.state.height = roundDimension(heightInput.value);
@@ -1011,7 +922,7 @@ function buildGlobalPane(ui) {
         for (const item of ui.state.library) item.useForIdentity = true;
         for (const slot of ui.state.slots) slot.lockIdentity = true;
         queueStateSync(ui.node, ui.state);
-        ui.showToast("身份参考已全选");
+        ui.showToast("主体参考已全选");
     });
     copyButton.addEventListener("click", () => copyState(ui));
     clearLibraryButton.addEventListener("click", () => {
@@ -1063,7 +974,7 @@ function commitUi(ui, options = {}) {
     if (options.board) renderBoard(ui);
     if (options.inspector) syncInspector(ui);
     if (options.library) renderLibrary(ui);
-    if (options.header) syncHeader(ui);
+    if (options.header) { syncHeader(ui); renderTemplateStrip(ui); }
     if (options.sync !== false) queueStateSync(ui.node, ui.state);
     syncCellForm(ui);
 }
